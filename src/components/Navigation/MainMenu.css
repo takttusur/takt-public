@@ -1,76 +1,78 @@
 .main-menu-container {
-  width: 100%;
-  position: fixed;
-  background-color: #F7FAFC; /* Equivalent to gray.100 in light mode */
-  padding: 0 1rem;
-  z-index: 10;
+    width: 100%;
+    position: fixed;
+    background-color: #f7fafc; /* Equivalent to gray.100 in light mode */
+    padding: 0 1rem;
+    z-index: 10;
 }
 
 .main-menu-flex {
-  height: 4rem; /* h={16} in Chakra is 4rem */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    height: 4rem; /* h={16} in Chakra is 4rem */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .menu-button {
-  padding: 0.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: none;
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
 }
 
 .menu-stack {
-  display: flex;
-  align-items: center;
-  gap: 2rem; /* spacing={8} in Chakra is 2rem */
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* spacing={8} in Chakra is 2rem */
 }
 
 .nav-links {
-  display: flex;
-  gap: 1rem; /* spacing={4} in Chakra is 1rem */
+    display: flex;
+    gap: 1rem; /* spacing={4} in Chakra is 1rem */
 }
 
 .mobile-menu {
-  padding-bottom: 1rem;
-  display: none;
+    padding-bottom: 1rem;
+    display: none;
 }
 
 .mobile-nav-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* spacing={4} in Chakra is 1rem */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* spacing={4} in Chakra is 1rem */
 }
 
 .spacer {
-  height: 4rem; /* Same as main-menu-flex height */
+    height: 4rem; /* Same as main-menu-flex height */
 }
 
 /* Media queries for responsive design */
-@media (max-width: 48em) { /* md breakpoint in Chakra is 48em */
-  .menu-button {
-    display: block;
-  }
-  
-  .nav-links {
-    display: none;
-  }
-  
-  .mobile-menu.open {
-    display: block;
-  }
+@media (max-width: 48em) {
+    /* md breakpoint in Chakra is 48em */
+    .menu-button {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .mobile-menu.open {
+        display: block;
+    }
 }
 
-@media (min-width: 48em) { /* md breakpoint in Chakra is 48em */
-  .mobile-menu {
-    display: none !important;
-  }
+@media (min-width: 48em) {
+    /* md breakpoint in Chakra is 48em */
+    .mobile-menu {
+        display: none !important;
+    }
 }
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
-  .main-menu-container {
-    background-color: #1A202C; /* Equivalent to gray.900 in dark mode */
-  }
+    .main-menu-container {
+        background-color: #1a202c; /* Equivalent to gray.900 in dark mode */
+    }
 }
