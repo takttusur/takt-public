@@ -3,6 +3,7 @@ import HomePage from './HomePage.tsx'
 import MealEditorPage from './MealEditorPage.tsx'
 import CurrentEventsPage from './CurrentEvents.tsx'
 import EquipmentPage from './Eqiupment.tsx'
+import InMemoriaPageRoute from './InMemoriaPage.tsx'
 import { IAppRoutingMap } from './common/IAppRoutingMap.ts'
 import { IAppRoute } from './common/IAppRoute.ts'
 
@@ -31,6 +32,12 @@ class RootAppRoutingMap extends Object implements IAppRoutingMap {
         path: '/equipment',
         element: <EquipmentPage />,
         title: 'Снаряжение',
+    }
+
+    public readonly InMemoria: IAppRoute = {
+        path: '/inmemoria',
+        element: <InMemoriaPageRoute />,
+        title: 'Inmemoria',
     }
 
     public getRoutes(): RouteObject[] {
