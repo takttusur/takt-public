@@ -13,8 +13,7 @@
     "preview": "vite preview"
   },
   "pre-commit": [
-    "format",
-    "lint:fix"
+    "lint"
   ],
   "dependencies": {
     "@tanstack/react-query": "5.17.9",

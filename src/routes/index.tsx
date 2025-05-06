@@ -1,8 +1,5 @@
 import { Navigate, RouteObject } from 'react-router-dom'
 import HomePage from './HomePage.tsx'
-import MealEditorPage from './MealEditorPage.tsx'
-import CurrentEventsPage from './CurrentEvents.tsx'
-import EquipmentPage from './Eqiupment.tsx'
 import InMemoriaPageRoute from './InMemoriaPage.tsx'
 import { IAppRoutingMap } from './common/IAppRoutingMap.ts'
 import { IAppRoute } from './common/IAppRoute.ts'
@@ -17,21 +14,6 @@ class RootAppRoutingMap extends Object implements IAppRoutingMap {
         path: '/',
         element: <Navigate to={this.Home.path} replace={true} />,
         title: '',
-    }
-    public readonly MealEditor: IAppRoute = {
-        path: '/mealEditor',
-        element: <MealEditorPage />,
-        title: 'Редактор раскладок',
-    }
-    public readonly CurrentEvents: IAppRoute = {
-        path: '/currentEvents',
-        element: <CurrentEventsPage />,
-        title: 'События',
-    }
-    public readonly Equipment: IAppRoute = {
-        path: '/equipment',
-        element: <EquipmentPage />,
-        title: 'Снаряжение',
     }
 
     public readonly InMemoria: IAppRoute = {

@@ -1,5 +1,4 @@
 import './App.css'
-import MainMenu from './components/Navigation/MainMenu'
 import Footer from './components/Footer'
 
 import { useRoutes, useLocation } from 'react-router-dom'
@@ -18,7 +17,6 @@ export default function App(): JSX.Element {
 
     return (
         <>
-            {!isInMemoriaRoute && <MainMenu />}
             {routesElement}
             {!isInMemoriaRoute && <Footer />}
             <YandexMetrikaCounter

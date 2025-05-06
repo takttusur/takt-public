@@ -12,8 +12,6 @@ const links: INavLinkProps[] = [
         link: 'http://vk.com/takt_tusur',
         label: 'Группа VK',
     },
-    ToNavLinkProps(rootRoutes.Equipment),
-    ToNavLinkProps(rootRoutes.CurrentEvents),
 ]
 
 export default function MainMenu(): JSX.Element {
