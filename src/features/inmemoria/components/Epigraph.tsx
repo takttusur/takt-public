@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './epigraph.css'
 
 interface EpigraphProps {
     // No props needed for now
@@ -16,13 +17,8 @@ const Epigraph: React.FC<EpigraphProps> = () => {
     }, [])
 
     return (
-        <div id="epigraph">
+        <div className="inmemoria-epigraph">
             <p dangerouslySetInnerHTML={{ __html: epigraph }}></p>
-            <div id="listlink">
-                <i>
-                    <a href="list.php">Те, кого с нами нет...</a>
-                </i>
-            </div>
         </div>
     )
 }
