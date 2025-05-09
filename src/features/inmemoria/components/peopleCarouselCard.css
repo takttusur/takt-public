@@ -1,0 +1,44 @@
+.inmemoria-people-carousel-card {
+    display: block;
+    background: url('../images/memo.gif') no-repeat scroll 0 0 transparent;
+    position: relative;
+    width: 170px;
+    height: 310px;
+    border-radius: 10px;
+    border: 0 solid white;
+}
+
+.inmemoria-people-carousel-card-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 15px 3px 0 12px;
+}
+
+.inmemoria-people-carousel-card img {
+    width: 64px;
+    min-width: 64px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.6);
+    object-fit: cover;
+    object-position: center;
+}
+
+.inmemoria-people-carousel-card-name {
+    flex: 1;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #246;
+    text-align: left;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.inmemoria-people-carousel-card-name:visited {
+    color: #246;
+}
