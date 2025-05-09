@@ -31,4 +31,7 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
+    overflow: hidden;
+    margin-left: 41px;
+    margin-right: 41px;
 }

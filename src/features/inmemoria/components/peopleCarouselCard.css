@@ -2,7 +2,8 @@
     display: block;
     background: url('../images/memo.gif') no-repeat scroll 0 0 transparent;
     position: relative;
-    width: 170px;
+    max-width: 170px;
+    min-width: 170px;
     height: 310px;
     border-radius: 10px;
     border: 0 solid white;
