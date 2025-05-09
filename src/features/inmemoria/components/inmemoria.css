@@ -7,15 +7,10 @@
     min-height: 100vh;
 }
 
-.inmemoria-page a {
-    font-size: 13px;
-    font-family: Tahoma, Verdana, serif;
-    color: rgb(51, 51, 102);
-}
-
 .inmemoria-content {
     background: #88b7c9;
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }

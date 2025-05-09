@@ -13,23 +13,39 @@ const PeopleCarousel: React.FC<PeopleCarouselProps> = () => {
             <div className="inmemoria-people-carousel-content">
                 <PeopleCarouselCard
                     name="Васильев Иван"
-                    description="text"
                     imageSrc="src/features/inmemoria/images/fake_img1.png"
+                    url=""
+                    galleryUrl=""
+                    lifeUrl=""
+                    memoriesUrl=""
+                    tracksUrl=""
                 />
                 <PeopleCarouselCard
                     name="Петров Пётр"
-                    description="text"
                     imageSrc="src/features/inmemoria/images/fake_img2.png"
+                    url=""
+                    galleryUrl=""
+                    lifeUrl=""
+                    memoriesUrl=""
+                    tracksUrl=""
                 />
                 <PeopleCarouselCard
                     name="Владислав-Александр Старосельсконевский"
-                    description="text"
                     imageSrc="src/features/inmemoria/images/fake_img1.png"
+                    url=""
+                    galleryUrl=""
+                    lifeUrl=""
+                    memoriesUrl=""
+                    tracksUrl=""
                 />
                 <PeopleCarouselCard
                     name="Ким Олег"
-                    description="text"
                     imageSrc="src/features/inmemoria/images/fake_img2.png"
+                    url=""
+                    galleryUrl=""
+                    lifeUrl=""
+                    memoriesUrl=""
+                    tracksUrl=""
                 />
             </div>
             <div className="inmemoria-people-carousel-right" />
