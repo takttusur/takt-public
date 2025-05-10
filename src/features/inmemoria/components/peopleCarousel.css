@@ -24,14 +24,11 @@
 
 .inmemoria-people-carousel-content {
     flex: 1;
-    height: 100%;
-    min-height: 43px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
+    flex-wrap: wrap;
     overflow: hidden;
     margin-left: 41px;
     margin-right: 41px;
+    height: 313px;
+    gap: 12px;
 }
