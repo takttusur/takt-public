@@ -17,12 +17,14 @@
   ],
   "dependencies": {
     "@tanstack/react-query": "5.17.9",
-    "date-fns": "^3.2.0",
+    "@types/react-transition-group": "4.4.12",
+    "date-fns": "3.2.0",
     "logrocket": "7.0.0",
     "logrocket-react": "6.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.15.0",
+    "react-transition-group": "4.4.5",
     "react-yandex-metrika": "2.6.0"
   },
   "devDependencies": {
