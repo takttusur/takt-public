@@ -115,14 +115,13 @@ const PeopleCarousel: React.FC<PeopleCarouselProps> = () => {
             imageSrc: 'src/features/inmemoria/images/fake_img1.png',
         },
     ]
-    const [peopleSequence, setPeopleSequence] = useState<number[]>(
-        persons.map((_person, index) => index)
-    )
+    const [peopleSequence, setPeopleSequence] =
+        useState<CarouselPerson[]>(persons)
 
     const handleLeftButtonClick = (): void => {
         setPeopleSequence((prevPeopleSequence) => {
             const newPeopleSequence = [...prevPeopleSequence]
-            newPeopleSequence.push(newPeopleSequence.shift()!)
+            newPeopleSequence.unshift(newPeopleSequence.pop()!)
             return newPeopleSequence
         })
     }
@@ -130,7 +129,7 @@ const PeopleCarousel: React.FC<PeopleCarouselProps> = () => {
     const handleRightButtonClick = (): void => {
         setPeopleSequence((prevPeopleSequence) => {
             const newPeopleSequence = [...prevPeopleSequence]
-            newPeopleSequence.unshift(newPeopleSequence.pop()!)
+            newPeopleSequence.push(newPeopleSequence.shift()!)
             return newPeopleSequence
         })
     }
@@ -144,9 +143,9 @@ const PeopleCarousel: React.FC<PeopleCarouselProps> = () => {
             <div className="inmemoria-people-carousel-content">
                 {peopleSequence.map((i) => (
                     <PeopleCarouselCard
-                        key={i}
-                        name={persons[i].name}
-                        imageSrc={persons[i].imageSrc}
+                        key={i.id}
+                        name={i.name}
+                        imageSrc={i.imageSrc}
                         url=""
                         galleryUrl=""
                         lifeUrl=""
