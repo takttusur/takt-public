@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = () => {
                     <Search />
                 </div>
                 <div className="inmemoria-header-link">
-                    <a href="list.php">Те, кого с нами нет...</a>
+                    <Link to="list">Те, кого с нами нет...</Link>
                 </div>
             </div>
         </header>
