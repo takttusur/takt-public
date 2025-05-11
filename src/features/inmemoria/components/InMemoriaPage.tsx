@@ -1,17 +1,20 @@
 import './inmemoria.css'
 import Footer from './Footer'
 import Header from './Header'
-import PeopleCarousel from './PeopleCarousel.tsx'
-import PhotosCarousel from './PhotosCarousel.tsx'
+import MainPage from './MainPage'
+import AboutPage from './AboutPage'
+import ListPage from './ListPage'
+import { Routes, Route } from 'react-router-dom'
 
 const InMemoriaPage = (): JSX.Element => {
     return (
         <div className="inmemoria-page">
             <Header />
-            <div className="inmemoria-content">
-                <PeopleCarousel />
-                <PhotosCarousel />
-            </div>
+            <Routes>
+                <Route index element={<MainPage />} />
+                <Route path="about" element={<AboutPage />} />
+                <Route path="list" element={<ListPage />} />
+            </Routes>
             <Footer />
         </div>
     )

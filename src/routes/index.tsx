@@ -17,7 +17,7 @@ class RootAppRoutingMap extends Object implements IAppRoutingMap {
     }
 
     public readonly InMemoria: IAppRoute = {
-        path: '/inmemoria',
+        path: '/inmemoria/*',
         element: <InMemoriaPageRoute />,
         title: 'Inmemoria',
     }
