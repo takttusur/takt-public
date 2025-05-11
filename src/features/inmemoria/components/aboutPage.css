@@ -1,0 +1,61 @@
+.inmemoria-about-content {
+    position: relative;
+    padding: 40px 140px 20px 140px;
+    background: #88b7c9;
+    min-width: 480px;
+}
+
+.inmemoria-about-content p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.inmemoria-about-content h1 {
+    font-family: Georgia, serif;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 7px;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.inmemoria-about-content h2 {
+    font-family: Georgia, serif;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+}
+
+.inmemoria-about-content h3 {
+    color: blue;
+    font-size: 13px;
+    font-family: Tahoma, Verdana, serif;
+}
+
+.inmemoria-about-content table {
+    margin-bottom: 10px;
+}
+
+.inmemoria-about-content td h3 {
+    font-family: Georgia, serif;
+    margin: 40px 0 5px 5px;
+    color: #336;
+    font-weight: bold;
+    font-size: 1.13em;
+}
+
+.inmemoria-about-content td img {
+    height: 100px;
+    border: none;
+    object-fit: cover;
+}
+
+.inmemoria-about-content td:has(img) {
+    width: 100px;
+}
+
+.inmemoria-about-content td span {
+    color: black;
+    padding: 5px;
+}

@@ -1,16 +1,21 @@
 import React from 'react'
 import './footer.css'
+import { Link, useLocation } from 'react-router-dom'
 
 interface FooterProps {
     // No props needed for now
 }
 
 const Footer: React.FC<FooterProps> = () => {
+    const location = useLocation()
+    const isMainPage = location.pathname === '/inmemoria'
+
     return (
         <div className="inmemoria-footer">
             <div className="inmemoria-footer-links">
-                <a href="about.php">О проекте</a>
-                <a href="http://takt.tomsk.ru">ТАКТ</a>
+                {!isMainPage && <Link to="">Главная</Link>}
+                <Link to="about">О проекте</Link>
+                <a href="https://vk.com/takt_tusur">ТАКТ</a>
             </div>
             <div className="inmemoria-footer-feedback">
                 <span>
