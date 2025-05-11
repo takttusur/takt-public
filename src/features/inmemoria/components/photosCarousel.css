@@ -1,0 +1,53 @@
+.inmemoria-photos-carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    width: 100%;
+}
+
+.inmemoria-photos-carousel-button-left {
+    cursor: pointer;
+    background: url('../images/small_button_left.png');
+    width: 25px;
+    height: 32px;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.inmemoria-photos-carousel-button-right {
+    cursor: pointer;
+    width: 25px;
+    height: 32px;
+    background: url('../images/small_button_right.png');
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.inmemoria-photos-carousel-content {
+    background: linear-gradient(to top, #fdfdfd, #999);
+    position: relative;
+    margin-left: -15px;
+    margin-right: -15px;
+    border-radius: 4px;
+    height: 125px;
+    width: 100%;
+    z-index: 0;
+    overflow-x: hidden;
+    white-space: nowrap;
+    display: flex;
+    gap: 4px;
+}
+
+.inmemoria-photos-carousel-content a {
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.inmemoria-photos-carousel-content img {
+    display: inline-block;
+    height: 111px;
+    margin-top: 7px;
+    object-fit: cover;
+    object-position: center;
+}

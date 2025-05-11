@@ -25,10 +25,15 @@
 .inmemoria-people-carousel-content {
     flex: 1;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     overflow: hidden;
-    margin-left: 41px;
-    margin-right: 41px;
+    margin-left: 20px;
+    margin-right: 20px;
     height: 313px;
     gap: 12px;
+    justify-content: left;
+}
+
+.inmemoria-people-carousel-content .inmemoria-people-carousel-card {
+    flex-shrink: 0;
 }

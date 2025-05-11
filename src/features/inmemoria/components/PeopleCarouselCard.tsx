@@ -3,6 +3,7 @@ import './peopleCarouselCard.css'
 
 interface PeopleCarouselCardProps {
     imageSrc?: string
+    backgroundImage: string
     name: string
     url: string
     memoriesUrl: string
@@ -17,6 +18,7 @@ const getRandomNumber = (min: number, max: number): number => {
 
 const PeopleCarouselCard: React.FC<PeopleCarouselCardProps> = ({
     imageSrc,
+    backgroundImage,
     name,
     url,
     memoriesUrl,
@@ -36,8 +38,15 @@ const PeopleCarouselCard: React.FC<PeopleCarouselCardProps> = ({
     const h3 = getRandomNumber(1, 10) * 5
     const h4 = getRandomNumber(1, 10) * 5
 
+    const imgUrl = new URL(`../images/${backgroundImage}`, import.meta.url).href
+
     return (
-        <div className="inmemoria-people-carousel-card">
+        <div
+            className="inmemoria-people-carousel-card"
+            style={{
+                backgroundImage: `url(${imgUrl})`,
+            }}
+        >
             <div className="inmemoria-people-carousel-card-header">
                 {imageSrc && (
                     <a href={url}>
