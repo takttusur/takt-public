@@ -51,3 +51,8 @@
     object-fit: cover;
     object-position: center;
 }
+
+.inmemoria-photos-carousel-content-line {
+    position: relative;
+    display: inline-block;
+}

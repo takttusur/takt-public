@@ -143,11 +143,13 @@ const PhotosCarousel: FC<PhotosCarouselProps> = () => {
                 onClick={handleLeftClick}
             ></div>
             <div className="inmemoria-photos-carousel-content">
-                {photos.map((photo) => (
-                    <a href={photo.href} key={photo.id}>
-                        <img src={photo.photoUrl} alt="Gallery Photo" />
-                    </a>
-                ))}
+                <div className="inmemoria-photos-carousel-content-line">
+                    {photos.map((photo) => (
+                        <a href={photo.href} key={photo.id}>
+                            <img src={photo.photoUrl} alt="Gallery Photo" />
+                        </a>
+                    ))}
+                </div>
             </div>
             <div
                 className="inmemoria-photos-carousel-button-right"
