@@ -28,6 +28,7 @@ const Search: React.FC<SearchProps> = () => {
             onSubmit={handleSearchSubmit}
         >
             <input
+                disabled={true}
                 type="text"
                 name="name"
                 placeholder="Фамилия, Имя, Прозвище"
