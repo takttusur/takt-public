@@ -5,6 +5,7 @@ import MainPage from './MainPage'
 import AboutPage from './AboutPage'
 import ListPage from './ListPage'
 import { Routes, Route } from 'react-router-dom'
+import { PersonPage } from './PersonPage.tsx'
 
 const InMemoriaPage = (): JSX.Element => {
     return (
@@ -14,6 +15,7 @@ const InMemoriaPage = (): JSX.Element => {
                 <Route index element={<MainPage />} />
                 <Route path="about" element={<AboutPage />} />
                 <Route path="list" element={<ListPage />} />
+                <Route path="person" element={<PersonPage />} />
             </Routes>
             <Footer />
         </div>

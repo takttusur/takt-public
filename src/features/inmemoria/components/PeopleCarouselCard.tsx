@@ -1,5 +1,6 @@
 import React from 'react'
 import './peopleCarouselCard.css'
+import { Link } from 'react-router-dom'
 
 interface PeopleCarouselCardProps {
     imageSrc?: string
@@ -21,10 +22,6 @@ const PeopleCarouselCard: React.FC<PeopleCarouselCardProps> = ({
     backgroundImage,
     name,
     url,
-    memoriesUrl,
-    galleryUrl,
-    tracksUrl,
-    lifeUrl,
 }) => {
     // Margins for the links
     const m1 = getRandomNumber(1, 4) * 5 // max 20px
@@ -58,18 +55,18 @@ const PeopleCarouselCard: React.FC<PeopleCarouselCardProps> = ({
                 </a>
             </div>
             <div className="inmemoria-people-carousel-card-links">
-                <a href={memoriesUrl} style={{ marginTop: m1, marginLeft: h1 }}>
+                <Link to="person" style={{ marginTop: m1, marginLeft: h1 }}>
                     Воспоминания
-                </a>
-                <a href={galleryUrl} style={{ marginTop: m2, marginLeft: h2 }}>
+                </Link>
+                <Link to="person" style={{ marginTop: m2, marginLeft: h2 }}>
                     Галерея
-                </a>
-                <a href={tracksUrl} style={{ marginTop: m3, marginLeft: h3 }}>
+                </Link>
+                <Link to="person" style={{ marginTop: m3, marginLeft: h3 }}>
                     Маршруты
-                </a>
-                <a href={lifeUrl} style={{ marginTop: m4, marginLeft: h4 }}>
+                </Link>
+                <Link to="person" style={{ marginTop: m4, marginLeft: h4 }}>
                     Жизнь
-                </a>
+                </Link>
             </div>
         </div>
     )

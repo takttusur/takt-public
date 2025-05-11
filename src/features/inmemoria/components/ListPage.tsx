@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './listPage.css'
+import { Link } from 'react-router-dom'
 
 interface PeopleRecord {
     name: string
@@ -123,7 +124,7 @@ const ListPage = (): JSX.Element => {
                                 <h2>{item.literal}</h2>
                                 {item.people.map((person) => (
                                     <div key={person.id}>
-                                        <a href="">{person.name}</a>
+                                        <Link to="person">{person.name}</Link>
                                     </div>
                                 ))}
                             </div>
