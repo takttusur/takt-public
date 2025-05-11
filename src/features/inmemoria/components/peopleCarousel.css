@@ -25,8 +25,8 @@
 .inmemoria-people-carousel-content {
     flex: 1;
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    overflow-x: hidden;
     margin-left: 20px;
     margin-right: 20px;
     height: 313px;
