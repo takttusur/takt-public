@@ -1,6 +1,6 @@
 import React from 'react'
 import './personPage.css'
-import { Link } from 'react-router-dom'
+import { Link, Routes, Route, Navigate } from 'react-router-dom'
 import { PersonPagePhoto } from './PersonPagePhoto.tsx'
 import { PersonPageGallery } from './PersonPageGallery.tsx'
 import { PersonPageHikes } from './PersonPageHikes.tsx'
@@ -31,19 +31,29 @@ export const PersonPage: React.FC<PersonPageProps> = () => {
                             </span>
                         </div>
                         <div className="inmemoria-person-page-card-content">
-                            <Link to="person">Воспоминания</Link>
-                            <Link to="person">Галерея</Link>
-                            <Link to="person">Маршруты</Link>
-                            <Link to="person">Жизнь</Link>
+                            <Link to="memories">Воспоминания</Link>
+                            <Link to="gallery">Галерея</Link>
+                            <Link to="hikes">Маршруты</Link>
+                            <Link to="bio">Жизнь</Link>
+                            <Link to="photo">Фото</Link>
                         </div>
                     </div>
                 </div>
                 <div className="inmemoria-person-page-content">
-                    <PersonPagePhoto />
-                    <PersonPageGallery />
-                    <PersonPageHikes />
-                    <PersonPageBio />
-                    <PersonPageMemories />
+                    <Routes>
+                        <Route path="photo" element={<PersonPagePhoto />} />
+                        <Route path="gallery" element={<PersonPageGallery />} />
+                        <Route path="hikes" element={<PersonPageHikes />} />
+                        <Route path="bio" element={<PersonPageBio />} />
+                        <Route
+                            path="memories"
+                            element={<PersonPageMemories />}
+                        />
+                        <Route
+                            index
+                            element={<Navigate to="photo" replace />}
+                        />
+                    </Routes>
                 </div>
             </div>
         </div>

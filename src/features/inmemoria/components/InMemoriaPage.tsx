@@ -15,7 +15,7 @@ const InMemoriaPage = (): JSX.Element => {
                 <Route index element={<MainPage />} />
                 <Route path="about" element={<AboutPage />} />
                 <Route path="list" element={<ListPage />} />
-                <Route path="person" element={<PersonPage />} />
+                <Route path="person/*" element={<PersonPage />} />
             </Routes>
             <Footer />
         </div>
