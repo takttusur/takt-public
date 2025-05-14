@@ -25,10 +25,16 @@ export const PersonPage: React.FC<PersonPageProps> = () => {
                 <div className="inmemoria-person-page-sidebar">
                     <div className="inmemoria-person-page-card">
                         <div className="inmemoria-person-page-card-header">
-                            <img src={personData.image} alt="" />
-                            <span title={personData.name}>
+                            <Link to="photo" title={personData.name}>
+                                <img src={personData.image} alt="Go to photo" />
+                            </Link>
+                            <Link
+                                to="bio"
+                                title={personData.name}
+                                className="inmemoria-person-page-card-header-name"
+                            >
                                 {personData.name}
-                            </span>
+                            </Link>
                         </div>
                         <div className="inmemoria-person-page-card-content">
                             <Link to="memories">Воспоминания</Link>
@@ -40,6 +46,9 @@ export const PersonPage: React.FC<PersonPageProps> = () => {
                     </div>
                 </div>
                 <div className="inmemoria-person-page-content">
+                    <h1 className="inmemoria-person-page-title">
+                        {personData.name}
+                    </h1>
                     <Routes>
                         <Route path="photo" element={<PersonPagePhoto />} />
                         <Route path="gallery" element={<PersonPageGallery />} />

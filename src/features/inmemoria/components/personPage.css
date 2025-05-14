@@ -3,6 +3,7 @@
     flex-direction: column;
     flex: 1;
     background: #88b7c9;
+    padding-bottom: 10px;
 }
 
 .inmemoria-person-page-container {
@@ -13,7 +14,7 @@
 .inmemoria-person-page-sidebar {
     padding-top: 8px;
     padding-left: 10px;
-    width: 300px;
+    width: 200px;
     flex-shrink: 0;
 }
 
@@ -40,7 +41,7 @@
     gap: 6px;
 }
 
-.inmemoria-person-page-card-header span {
+.inmemoria-person-page-card-header-name {
     white-space: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -86,4 +87,12 @@
     border-radius: 3px;
     background-color: white;
     opacity: 0.5;
+}
+
+.inmemoria-person-page-title {
+    font-family: Georgia, serif;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 2em;
+    font-weight: bold;
 }
