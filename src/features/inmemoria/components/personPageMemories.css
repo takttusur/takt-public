@@ -1,0 +1,13 @@
+.inmemoria-person-page-memories-card {
+    border: 4px solid transparent;
+    padding: 8px 8px 8px 5px;
+    margin: 4px 4px 4px 0;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+}
+
+.inmemoria-person-page-memories-card-signature {
+    text-align: right;
+    font-size: 11px;
+    font-style: italic;
+}
