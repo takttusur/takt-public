@@ -64,7 +64,7 @@ export const PersonPageGallery: React.FC<PersonPageGalleryProps> = () => {
                 onClick={handleLeftClick}
             ></button>
             <div className="inmemoria-person-page-gallery-photos">
-                {photos.map((photo) => (
+                {photos.slice(0, 3).map((photo) => (
                     <div
                         key={photo.id}
                         className="inmemoria-person-page-gallery-photos-item"
