@@ -6,11 +6,7 @@ interface PeopleCarouselCardProps {
     imageSrc?: string
     backgroundImage: string
     name: string
-    url: string
-    memoriesUrl: string
-    galleryUrl: string
-    tracksUrl: string
-    lifeUrl: string
+    id: number
 }
 
 const getRandomNumber = (min: number, max: number): number => {
@@ -21,7 +17,7 @@ const PeopleCarouselCard: React.FC<PeopleCarouselCardProps> = ({
     imageSrc,
     backgroundImage,
     name,
-    url,
+    id,
 }) => {
     // Margins for the links
     const m1 = getRandomNumber(1, 4) * 5 // max 20px
@@ -46,25 +42,40 @@ const PeopleCarouselCard: React.FC<PeopleCarouselCardProps> = ({
         >
             <div className="inmemoria-people-carousel-card-header">
                 {imageSrc && (
-                    <a href={url}>
+                    <Link to={`/inmemoria/person/${id}/photo`}>
                         <img src={imageSrc} alt={name} />
-                    </a>
+                    </Link>
                 )}
-                <a href={url} className="inmemoria-people-carousel-card-name">
+                <Link
+                    to={`/inmemoria/person/${id}/bio`}
+                    className="inmemoria-people-carousel-card-name"
+                >
                     {name}
-                </a>
+                </Link>
             </div>
             <div className="inmemoria-people-carousel-card-links">
-                <Link to="person" style={{ marginTop: m1, marginLeft: h1 }}>
+                <Link
+                    to={`/inmemoria/person/${id}/memories`}
+                    style={{ marginTop: m1, marginLeft: h1 }}
+                >
                     Воспоминания
                 </Link>
-                <Link to="person" style={{ marginTop: m2, marginLeft: h2 }}>
+                <Link
+                    to={`/inmemoria/person/${id}/gallery`}
+                    style={{ marginTop: m2, marginLeft: h2 }}
+                >
                     Галерея
                 </Link>
-                <Link to="person" style={{ marginTop: m3, marginLeft: h3 }}>
+                <Link
+                    to={`/inmemoria/person/${id}/hikes`}
+                    style={{ marginTop: m3, marginLeft: h3 }}
+                >
                     Маршруты
                 </Link>
-                <Link to="person" style={{ marginTop: m4, marginLeft: h4 }}>
+                <Link
+                    to={`/inmemoria/person/${id}/bio`}
+                    style={{ marginTop: m4, marginLeft: h4 }}
+                >
                     Жизнь
                 </Link>
             </div>

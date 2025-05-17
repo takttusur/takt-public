@@ -124,7 +124,11 @@ const ListPage = (): JSX.Element => {
                                 <h2>{item.literal}</h2>
                                 {item.people.map((person) => (
                                     <div key={person.id}>
-                                        <Link to="person">{person.name}</Link>
+                                        <Link
+                                            to={`/inmemoria/person/${person.id}/bio`}
+                                        >
+                                            {person.name}
+                                        </Link>
                                     </div>
                                 ))}
                             </div>

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react'
 import './personPageBio.css'
-import { apiService } from '../data/api/apiService'
+import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
 interface PersonPageBioProps {}
 
@@ -12,7 +12,7 @@ export const PersonPageBio: React.FC<PersonPageBioProps> = () => {
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                const data = await apiService.getBio()
+                const data = await inmemoriaFakeApi.getBio()
                 setBio(data)
             } catch (error) {
                 console.error('Error fetching bio:', error)

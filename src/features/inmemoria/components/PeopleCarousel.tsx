@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './peopleCarousel.css'
 import PeopleCarouselCard from './PeopleCarouselCard.tsx'
 import { CarouselPerson } from '../types/CarouselPerson'
-import { apiService } from '../data/api/apiService'
+import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
 interface PeopleCarouselProps {
     // No props needed for now
@@ -15,7 +15,7 @@ const PeopleCarousel: React.FC<PeopleCarouselProps> = () => {
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                const data = await apiService.getPersons()
+                const data = await inmemoriaFakeApi.getPersons()
                 setPeopleSequence(data)
             } catch (error) {
                 console.error('Error fetching persons:', error)
@@ -64,11 +64,7 @@ const PeopleCarousel: React.FC<PeopleCarouselProps> = () => {
                         name={i.name}
                         imageSrc={i.imageSrc}
                         backgroundImage={i.backgroundImage}
-                        url=""
-                        galleryUrl=""
-                        lifeUrl=""
-                        memoriesUrl=""
-                        tracksUrl=""
+                        id={i.id}
                     />
                 ))}
             </div>

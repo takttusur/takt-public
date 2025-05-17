@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './personPageMemories.css'
 import { MemoriesRecord } from '../types/MemoriesRecord'
-import { apiService } from '../data/api/apiService'
+import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
 interface PersonPageMemoriesProps {}
 
@@ -12,7 +12,7 @@ export const PersonPageMemories: React.FC<PersonPageMemoriesProps> = () => {
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                const data = await apiService.getMemories()
+                const data = await inmemoriaFakeApi.getMemories()
                 setMemories(data)
             } catch (error) {
                 console.error('Error fetching memories:', error)

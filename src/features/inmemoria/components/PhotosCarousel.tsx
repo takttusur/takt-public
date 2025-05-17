@@ -1,10 +1,11 @@
 import { FC, useState, useCallback } from 'react'
 import './photosCarousel.css'
+import { Link } from 'react-router-dom'
 
 interface CarouselPhoto {
     id: number
     photoUrl: string
-    href: string
+    personId: number
 }
 
 interface PhotosCarouselProps {}
@@ -13,103 +14,103 @@ const PhotosCarousel: FC<PhotosCarouselProps> = () => {
     const photosArray: CarouselPhoto[] = [
         {
             id: 1,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 2,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 3,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 4,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 5,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 6,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 7,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 8,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 9,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 10,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 11,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 12,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 13,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 14,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 15,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 16,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 17,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 18,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
         {
             id: 19,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img1.png',
-            href: '',
         },
         {
             id: 20,
+            personId: 1,
             photoUrl: 'src/features/inmemoria/images/fake_img2.png',
-            href: '',
         },
     ]
     const [photos, setPhotos] = useState<CarouselPhoto[]>(photosArray)
@@ -145,9 +146,12 @@ const PhotosCarousel: FC<PhotosCarouselProps> = () => {
             <div className="inmemoria-photos-carousel-content">
                 <div className="inmemoria-photos-carousel-content-line">
                     {photos.map((photo) => (
-                        <a href={photo.href} key={photo.id}>
+                        <Link
+                            to={`/inmemoria/person/${photo.personId}/gallery`}
+                            key={photo.id}
+                        >
                             <img src={photo.photoUrl} alt="Gallery Photo" />
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>

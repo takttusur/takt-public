@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import './personPageGallery.css'
 import { GalleryPhoto } from '../types/GalleryPhoto'
-import { apiService } from '../data/api/apiService'
+import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
 interface PersonPageGalleryProps {}
 
@@ -12,7 +12,7 @@ export const PersonPageGallery: React.FC<PersonPageGalleryProps> = () => {
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                const data = await apiService.getGalleryPhotos()
+                const data = await inmemoriaFakeApi.getGalleryPhotos()
                 setPhotos(data)
             } catch (error) {
                 console.error('Error fetching gallery photos:', error)

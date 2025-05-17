@@ -7,7 +7,7 @@ import { PersonPageHikes } from './PersonPageHikes.tsx'
 import { PersonPageBio } from './PersonPageBio.tsx'
 import { PersonPageMemories } from './PersonPageMemories.tsx'
 import { Person } from '../types/Person'
-import { apiService } from '../data/api/apiService'
+import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
 interface PersonPageProps {}
 
@@ -17,7 +17,7 @@ export const PersonPage: React.FC<PersonPageProps> = () => {
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                const data = await apiService.getPerson()
+                const data = await inmemoriaFakeApi.getPerson()
                 setPersonData(data)
             } catch (error) {
                 console.error('Error fetching person data:', error)
