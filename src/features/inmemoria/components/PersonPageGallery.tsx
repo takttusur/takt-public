@@ -1,43 +1,28 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import './personPageGallery.css'
-
-interface GalleryPhoto {
-    id: number
-    src: string
-    title: string
-}
+import { GalleryPhoto } from '../types/GalleryPhoto'
+import { apiService } from '../data/api/apiService'
 
 interface PersonPageGalleryProps {}
 
 export const PersonPageGallery: React.FC<PersonPageGalleryProps> = () => {
-    const initialPhotos: GalleryPhoto[] = [
-        {
-            id: 1,
-            src: 'src/features/inmemoria/images/fake_img1.png',
-            title: 'Тестовая подпись 1',
-        },
-        {
-            id: 2,
-            src: 'src/features/inmemoria/images/fake_img1.png',
-            title: 'Тестовая подпись 2',
-        },
-        {
-            id: 3,
-            src: 'src/features/inmemoria/images/fake_img2.png',
-            title: 'Тестовая подпись 3',
-        },
-        {
-            id: 4,
-            src: 'src/features/inmemoria/images/fake_img1.png',
-            title: 'Тестовая подпись 4',
-        },
-        {
-            id: 5,
-            src: 'src/features/inmemoria/images/fake_img2.png',
-            title: 'Тестовая подпись 5',
-        },
-    ]
-    const [photos, setPhotos] = useState<GalleryPhoto[]>(initialPhotos)
+    const [photos, setPhotos] = useState<GalleryPhoto[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const data = await apiService.getGalleryPhotos()
+                setPhotos(data)
+            } catch (error) {
+                console.error('Error fetching gallery photos:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        void fetchData()
+    }, [])
 
     const handleLeftClick: () => void = useCallback(() => {
         const newPhotos = [...photos]
@@ -56,6 +41,14 @@ export const PersonPageGallery: React.FC<PersonPageGalleryProps> = () => {
         }
         setPhotos(() => newPhotos)
     }, [photos])
+
+    if (loading) {
+        return <div>Loading gallery...</div>
+    }
+
+    if (photos.length === 0) {
+        return <div>No photos available</div>
+    }
 
     return (
         <div className="inmemoria-person-page-gallery">

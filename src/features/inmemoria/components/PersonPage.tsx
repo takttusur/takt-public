@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './personPage.css'
 import { Link, Routes, Route, Navigate } from 'react-router-dom'
 import { PersonPagePhoto } from './PersonPagePhoto.tsx'
@@ -6,19 +6,30 @@ import { PersonPageGallery } from './PersonPageGallery.tsx'
 import { PersonPageHikes } from './PersonPageHikes.tsx'
 import { PersonPageBio } from './PersonPageBio.tsx'
 import { PersonPageMemories } from './PersonPageMemories.tsx'
-
-interface Person {
-    name: string
-    image: string
-}
+import { Person } from '../types/Person'
+import { apiService } from '../data/api/apiService'
 
 interface PersonPageProps {}
 
 export const PersonPage: React.FC<PersonPageProps> = () => {
-    const personData: Person = {
-        name: 'Владислав-Александр Старосельский',
-        image: 'src/features/inmemoria/images/fake_img1.png',
+    const [personData, setPersonData] = useState<Person | null>(null)
+
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const data = await apiService.getPerson()
+                setPersonData(data)
+            } catch (error) {
+                console.error('Error fetching person data:', error)
+            }
+        }
+
+        void fetchData()
+    }, [])
+    if (!personData) {
+        return <div>Loading...</div>
     }
+
     return (
         <div className="inmemoria-person-page">
             <div className="inmemoria-person-page-container">

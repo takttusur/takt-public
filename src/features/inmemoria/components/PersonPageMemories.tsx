@@ -1,38 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './personPageMemories.css'
-
-interface MemoriesRecord {
-    id: number
-    text: string
-    author: string
-    date: Date
-}
+import { MemoriesRecord } from '../types/MemoriesRecord'
+import { apiService } from '../data/api/apiService'
 
 interface PersonPageMemoriesProps {}
 
 export const PersonPageMemories: React.FC<PersonPageMemoriesProps> = () => {
-    const memories: MemoriesRecord[] = [
-        {
-            // eslint-disable-next-line max-len
-            text: 'Была прекрасным человеком с золотым сердцем. Всегда готова была прийти на помощь и поддержать добрым словом.',
-            author: 'Мария Иванова',
-            date: new Date('2023-12-25'),
-            id: 0,
-        },
-        {
-            // eslint-disable-next-line max-len
-            text: 'Замечательный был человек, настоящий профессионал своего дела. Буду всегда помнить наши интересные беседы за чашкой чая.',
-            author: 'Александр Петров',
-            date: new Date('2023-12-24'),
-            id: 1,
-        },
-        {
-            text: 'Светлая память. Навсегда останется в наших сердцах.',
-            author: 'Елена Сидорова',
-            date: new Date('2023-12-23'),
-            id: 2,
-        },
-    ]
+    const [memories, setMemories] = useState<MemoriesRecord[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const data = await apiService.getMemories()
+                setMemories(data)
+            } catch (error) {
+                console.error('Error fetching memories:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        void fetchData()
+    }, [])
+
+    if (loading) {
+        return <div>Loading memories...</div>
+    }
+
+    if (memories.length === 0) {
+        return <div>No memories available</div>
+    }
 
     return (
         <div className="inmemoria-person-page-memories">

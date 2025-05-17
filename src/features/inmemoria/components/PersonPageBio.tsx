@@ -1,19 +1,36 @@
 /* eslint-disable max-len */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './personPageBio.css'
+import { apiService } from '../data/api/apiService'
 
 interface PersonPageBioProps {}
 
 export const PersonPageBio: React.FC<PersonPageBioProps> = () => {
-    // eslint-disable-next-line max-len
-    const bio = `
-<p>
-    Алексей начал увлекаться горами ещё в школе, впервые оказавшись в походе по Восточному Саяну в 13 лет. С тех пор альпинизм стал смыслом его жизни. Он прошёл курсы спасателей, участвовал в десятках поисково-спасательных операций, а также организовал несколько экспедиций на Алтай, Памир и Кавказ.
-    </p>
-    <p>
-В 2014 году поднялся на пик Ленина (7134 м), в 2017 — на пик Корженевской (7105 м), а в 2019 — на Ама-Даблам в Непале. Алексей — сторонник чистого альпинизма и минимального вмешательства в природу. Он активно продвигает принципы Leave No Trace и проводит образовательные семинары по технике безопасности в горах.
-</p>
-    `
+    const [bio, setBio] = useState<string>('')
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchData = async (): Promise<void> => {
+            try {
+                const data = await apiService.getBio()
+                setBio(data)
+            } catch (error) {
+                console.error('Error fetching bio:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        void fetchData()
+    }, [])
+    if (loading) {
+        return <div>Loading bio...</div>
+    }
+
+    if (!bio) {
+        return <div>No bio available</div>
+    }
+
     return (
         <div
             className="inmemoria-person-page-bio"
