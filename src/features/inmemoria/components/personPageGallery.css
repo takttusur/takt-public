@@ -29,7 +29,8 @@
     z-index: 2;
     border: none;
     padding: 0;
-    background: transparent url('../images/big_button_left.png') no-repeat center;
+    background: transparent url('../images/big_button_left.png') no-repeat
+        center;
 }
 
 .inmemoria-person-page-gallery-button-right {
@@ -40,7 +41,8 @@
     z-index: 2;
     border: none;
     padding: 0;
-    background: transparent url('../images/big_button_right.png') no-repeat center;
+    background: transparent url('../images/big_button_right.png') no-repeat
+        center;
 }
 
 .inmemoria-person-page-gallery-photos-item {

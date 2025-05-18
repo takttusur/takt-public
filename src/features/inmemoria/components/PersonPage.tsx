@@ -8,6 +8,7 @@ import { PersonPageBio } from './PersonPageBio.tsx'
 import { PersonPageMemories } from './PersonPageMemories.tsx'
 import { Person } from '../types/Person'
 import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
+import { personCardDesigns } from '../data/personCardDesigns.ts'
 
 interface PersonPageProps {}
 
@@ -37,7 +38,12 @@ export const PersonPage: React.FC<PersonPageProps> = () => {
                     <div className="inmemoria-person-page-card">
                         <div className="inmemoria-person-page-card-header">
                             <Link to="photo" title={personData.name}>
-                                <img src={personData.image} alt="Go to photo" />
+                                <img
+                                    src={
+                                        personCardDesigns[personData.card].image
+                                    }
+                                    alt="Go to photo"
+                                />
                             </Link>
                             <Link
                                 to="bio"
