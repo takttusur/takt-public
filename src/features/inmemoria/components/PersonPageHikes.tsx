@@ -1,8 +1,6 @@
 import React from 'react'
 import './personPageHikes.css'
 
-interface PersonPageHikesProps {}
-
-export const PersonPageHikes: React.FC<PersonPageHikesProps> = () => {
+export const PersonPageHikes: React.FC = () => {
     return <div className="inmemoria-person-page-hikes"></div>
 }

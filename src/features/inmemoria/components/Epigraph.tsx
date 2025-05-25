@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './epigraph.css'
 
-interface EpigraphProps {
-    // No props needed for now
-}
-
-const Epigraph: React.FC<EpigraphProps> = () => {
+const Epigraph: React.FC = () => {
     const [epigraph, setEpigraph] = useState<string>('')
 
     // This would normally fetch data from an API

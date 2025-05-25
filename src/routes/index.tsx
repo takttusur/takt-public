@@ -23,14 +23,35 @@ class RootAppRoutingMap extends Object implements IAppRoutingMap {
     }
 
     public getRoutes(): RouteObject[] {
-        const keys = Object.keys(this) as Array<keyof RootAppRoutingMap>
+        const keys = Object.getOwnPropertyNames(this).filter(
+            (name) => Object.getOwnPropertyDescriptor(this, name)?.enumerable
+        ) as Array<keyof RootAppRoutingMap>
 
         return keys
-            .map((k) => this[k] as IAppRoute)
-            .map((r) => ({
-                element: r.element,
-                path: r.path,
-            }))
+            .map((k) => {
+                const route = this[k]
+                if (this.isAppRoute(route)) {
+                    return route
+                }
+                return null
+            })
+            .filter((r): r is IAppRoute => r !== null)
+            .map(
+                (r): RouteObject => ({
+                    element: r.element,
+                    path: r.path,
+                })
+            )
+    }
+
+    private isAppRoute(route: unknown): route is IAppRoute {
+        return (
+            typeof route === 'object' &&
+            route !== null &&
+            'path' in route &&
+            'element' in route &&
+            'title' in route
+        )
     }
 }
 

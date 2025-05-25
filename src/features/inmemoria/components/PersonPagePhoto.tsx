@@ -1,8 +1,6 @@
 import React from 'react'
 
-interface PersonPagePhotoProps {}
-
-export const PersonPagePhoto: React.FC<PersonPagePhotoProps> = () => {
+export const PersonPagePhoto: React.FC = () => {
     return (
         <img
             style={{ border: 'none' }}

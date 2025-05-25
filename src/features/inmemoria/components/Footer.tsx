@@ -2,11 +2,7 @@ import React from 'react'
 import './footer.css'
 import { Link, useLocation } from 'react-router-dom'
 
-interface FooterProps {
-    // No props needed for now
-}
-
-const Footer: React.FC<FooterProps> = () => {
+const Footer: React.FC = () => {
     const location = useLocation()
     const isMainPage = location.pathname === '/inmemoria'
 

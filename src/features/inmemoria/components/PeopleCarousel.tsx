@@ -4,11 +4,7 @@ import PeopleCarouselCard from './PeopleCarouselCard.tsx'
 import { CarouselPerson } from '../types/CarouselPerson'
 import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
-interface PeopleCarouselProps {
-    // No props needed for now
-}
-
-const PeopleCarousel: React.FC<PeopleCarouselProps> = () => {
+const PeopleCarousel: React.FC = () => {
     const [peopleSequence, setPeopleSequence] = useState<CarouselPerson[]>([])
     const [loading, setLoading] = useState(true)
 

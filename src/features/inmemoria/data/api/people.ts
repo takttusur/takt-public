@@ -5,6 +5,7 @@ import { CarouselPerson } from '../../types/CarouselPerson'
 export const personData: Person = {
     name: 'Владислав-Александр Старосельский',
     image: 'src/features/inmemoria/images/fake_img1.png',
+    card: 'card1',
 }
 
 // Data from PeopleCarousel.tsx

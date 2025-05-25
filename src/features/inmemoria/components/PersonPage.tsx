@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './personPage.css'
-import { Link, Routes, Route, Navigate } from 'react-router-dom'
+import { Link, Routes, Route, Navigate, useParams } from 'react-router-dom'
 import { PersonPagePhoto } from './PersonPagePhoto.tsx'
 import { PersonPageGallery } from './PersonPageGallery.tsx'
 import { PersonPageHikes } from './PersonPageHikes.tsx'
@@ -9,11 +9,16 @@ import { PersonPageMemories } from './PersonPageMemories.tsx'
 import { Person } from '../types/Person'
 import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 import { personCardDesigns } from '../data/personCardDesigns.ts'
+import { useAppSelector } from '../../../store/hooks'
 
-interface PersonPageProps {}
+interface PersonPageParams extends Record<string, string> {
+    id: string
+}
 
-export const PersonPage: React.FC<PersonPageProps> = () => {
+export const PersonPage: React.FC = () => {
     const [personData, setPersonData] = useState<Person | null>(null)
+    const personState = useAppSelector((state) => state.inmemoria)
+    const params = useParams<PersonPageParams>()
 
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
@@ -24,10 +29,12 @@ export const PersonPage: React.FC<PersonPageProps> = () => {
                 console.error('Error fetching person data:', error)
             }
         }
+        console.log('Params')
+        console.log(params)
 
         void fetchData()
-    }, [])
-    if (!personData) {
+    }, [params])
+    if (!personState.current) {
         return <div>Loading...</div>
     }
 

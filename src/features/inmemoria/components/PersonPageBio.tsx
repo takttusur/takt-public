@@ -3,9 +3,7 @@ import React, { useState, useEffect } from 'react'
 import './personPageBio.css'
 import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
-interface PersonPageBioProps {}
-
-export const PersonPageBio: React.FC<PersonPageBioProps> = () => {
+export const PersonPageBio: React.FC = () => {
     const [bio, setBio] = useState<string>('')
     const [loading, setLoading] = useState(true)
 

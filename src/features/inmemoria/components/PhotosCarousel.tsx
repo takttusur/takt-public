@@ -8,9 +8,7 @@ interface CarouselPhoto {
     personId: number
 }
 
-interface PhotosCarouselProps {}
-
-const PhotosCarousel: FC<PhotosCarouselProps> = () => {
+const PhotosCarousel: FC = () => {
     const photosArray: CarouselPhoto[] = [
         {
             id: 1,

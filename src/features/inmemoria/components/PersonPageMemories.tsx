@@ -3,9 +3,7 @@ import './personPageMemories.css'
 import { MemoriesRecord } from '../types/MemoriesRecord'
 import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
-interface PersonPageMemoriesProps {}
-
-export const PersonPageMemories: React.FC<PersonPageMemoriesProps> = () => {
+export const PersonPageMemories: React.FC = () => {
     const [memories, setMemories] = useState<MemoriesRecord[]>([])
     const [loading, setLoading] = useState(true)
 

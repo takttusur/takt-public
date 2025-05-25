@@ -3,9 +3,7 @@ import './personPageGallery.css'
 import { GalleryPhoto } from '../types/GalleryPhoto'
 import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
 
-interface PersonPageGalleryProps {}
-
-export const PersonPageGallery: React.FC<PersonPageGalleryProps> = () => {
+export const PersonPageGallery: React.FC = () => {
     const [photos, setPhotos] = useState<GalleryPhoto[]>([])
     const [loading, setLoading] = useState(true)
 

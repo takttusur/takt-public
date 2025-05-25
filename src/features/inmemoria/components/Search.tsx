@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import './search.css'
 
-interface SearchProps {
-    // No props needed for now
-}
-
-const Search: React.FC<SearchProps> = () => {
+const Search: React.FC = () => {
     const [search, setSearch] = useState<string>('')
 
     const handleSearchChange = (

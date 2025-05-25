@@ -4,11 +4,7 @@ import Search from './Search.tsx'
 import './header.css'
 import { Link } from 'react-router-dom'
 
-interface HeaderProps {
-    // No props needed for now
-}
-
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC = () => {
     return (
         <header className="inmemoria-header">
             <div className="inmemoria-header-line">
