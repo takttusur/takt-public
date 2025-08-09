@@ -6,6 +6,7 @@ import AboutPage from './AboutPage'
 import ListPage from './ListPage'
 import { Routes, Route } from 'react-router-dom'
 import { PersonPage } from './PersonPage.tsx'
+import { JSX } from 'react'
 
 const InMemoriaPage = (): JSX.Element => {
     return (
