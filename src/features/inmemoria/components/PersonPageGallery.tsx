@@ -1,26 +1,27 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import './personPageGallery.css'
-import { GalleryPhoto } from '../types/GalleryPhoto'
-import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
+import { useParams } from 'react-router-dom'
+import {
+    PhotosResultModel,
+    useGetPhotosByPersonIdQuery,
+} from '../data/inmemoriaApi.ts'
+import { PersonPageParams } from './PersonPage.tsx'
 
 export const PersonPageGallery: React.FC = () => {
-    const [photos, setPhotos] = useState<GalleryPhoto[]>([])
-    const [loading, setLoading] = useState(true)
+    const [photos, setPhotos] = useState<PhotosResultModel[]>([])
+    const params = useParams<PersonPageParams>()
+    const { data, isLoading, isError } = useGetPhotosByPersonIdQuery(
+        params.id ?? ''
+    )
 
     useEffect(() => {
-        const fetchData = async (): Promise<void> => {
-            try {
-                const data = await inmemoriaFakeApi.getGalleryPhotos()
-                setPhotos(data)
-            } catch (error) {
-                console.error('Error fetching gallery photos:', error)
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        void fetchData()
-    }, [])
+        if (isLoading || isError || !data) return
+        const photos: PhotosResultModel[] = []
+        data.forEach((photo) => {
+            photos.push(photo)
+        })
+        setPhotos(() => photos)
+    }, [data, isLoading, isError])
 
     const handleLeftClick: () => void = useCallback(() => {
         const newPhotos = [...photos]
@@ -40,12 +41,16 @@ export const PersonPageGallery: React.FC = () => {
         setPhotos(() => newPhotos)
     }, [photos])
 
-    if (loading) {
-        return <div>Loading gallery...</div>
+    if (!params.id) {
+        return <div>No id provided</div>
+    }
+
+    if (isLoading || isError || !data) {
+        return <div>Загрузка...</div>
     }
 
     if (photos.length === 0) {
-        return <div>No photos available</div>
+        return <div>Нет фотографий</div>
     }
 
     return (
@@ -60,7 +65,7 @@ export const PersonPageGallery: React.FC = () => {
                         key={photo.id}
                         className="inmemoria-person-page-gallery-photos-item"
                     >
-                        <img src={photo.src} alt={photo.title} />
+                        <img src={photo.image} alt={photo.title} />
                         <div className="inmemoria-person-page-gallery-photos-item-title">
                             {photo.title}
                         </div>

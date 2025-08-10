@@ -9,8 +9,8 @@ const Footer: React.FC = () => {
     return (
         <div className="inmemoria-footer">
             <div className="inmemoria-footer-links">
-                {!isMainPage && <Link to="">Главная</Link>}
-                <Link to="about">О проекте</Link>
+                {!isMainPage && <Link to="/inmemoria">Главная</Link>}
+                <Link to="/inmemoria/about">О проекте</Link>
                 <a href="https://vk.com/takt_tusur">ТАКТ</a>
             </div>
             <div className="inmemoria-footer-feedback">

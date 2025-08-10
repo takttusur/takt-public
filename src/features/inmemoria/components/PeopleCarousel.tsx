@@ -2,26 +2,17 @@ import React, { useState, useEffect } from 'react'
 import './peopleCarousel.css'
 import PeopleCarouselCard from './PeopleCarouselCard.tsx'
 import { CarouselPerson } from '../types/CarouselPerson'
-import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
+import { useGetCarouselPersonQuery } from '../data/inmemoriaApi.ts'
 
 const PeopleCarousel: React.FC = () => {
+    const { data, isLoading, isError, refetch } = useGetCarouselPersonQuery()
     const [peopleSequence, setPeopleSequence] = useState<CarouselPerson[]>([])
-    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const fetchData = async (): Promise<void> => {
-            try {
-                const data = await inmemoriaFakeApi.getPersons()
-                setPeopleSequence(data)
-            } catch (error) {
-                console.error('Error fetching persons:', error)
-            } finally {
-                setLoading(false)
-            }
+        if (!isLoading && !isError && data) {
+            setPeopleSequence(data)
         }
-
-        void fetchData()
-    }, [])
+    }, [data, isLoading, isError, refetch])
 
     const handleLeftButtonClick = (): void => {
         setPeopleSequence((prevPeopleSequence) => {
@@ -39,7 +30,7 @@ const PeopleCarousel: React.FC = () => {
         })
     }
 
-    if (loading) {
+    if (isLoading) {
         return <div>Loading people...</div>
     }
 

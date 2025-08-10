@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './personPage.css'
 import { Link, Routes, Route, Navigate, useParams } from 'react-router-dom'
 import { PersonPagePhoto } from './PersonPagePhoto.tsx'
@@ -6,36 +6,22 @@ import { PersonPageGallery } from './PersonPageGallery.tsx'
 import { PersonPageHikes } from './PersonPageHikes.tsx'
 import { PersonPageBio } from './PersonPageBio.tsx'
 import { PersonPageMemories } from './PersonPageMemories.tsx'
-import { Person } from '../types/Person'
-import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
-import { personCardDesigns } from '../data/personCardDesigns.ts'
-import { useAppSelector } from '../../../store/hooks'
+import { useGetPersonByIdQuery } from '../data/inmemoriaApi.ts'
 
-interface PersonPageParams extends Record<string, string> {
+export interface PersonPageParams extends Record<string, string> {
     id: string
 }
 
 export const PersonPage: React.FC = () => {
-    const [personData, setPersonData] = useState<Person | null>(null)
-    const personState = useAppSelector((state) => state.inmemoria)
     const params = useParams<PersonPageParams>()
+    const { data, isLoading, isError } = useGetPersonByIdQuery(params.id ?? '')
 
-    useEffect(() => {
-        const fetchData = async (): Promise<void> => {
-            try {
-                const data = await inmemoriaFakeApi.getPerson()
-                setPersonData(data)
-            } catch (error) {
-                console.error('Error fetching person data:', error)
-            }
-        }
-        console.log('Params')
-        console.log(params)
+    if (!params.id) {
+        return <div>No id provided</div>
+    }
 
-        void fetchData()
-    }, [params])
-    if (!personState.current) {
-        return <div>Loading...</div>
+    if (isLoading || isError || !data) {
+        return <div>Загрузка...</div>
     }
 
     return (
@@ -44,34 +30,47 @@ export const PersonPage: React.FC = () => {
                 <div className="inmemoria-person-page-sidebar">
                     <div className="inmemoria-person-page-card">
                         <div className="inmemoria-person-page-card-header">
-                            <Link to="photo" title={personData.name}>
+                            <Link
+                                to={`/inmemoria/person/${params.id}/photo`}
+                                title={data.firstName + ' ' + data.lastName}
+                            >
                                 <img
-                                    src={
-                                        personCardDesigns[personData.card].image
-                                    }
+                                    src={data.backgroundImage}
                                     alt="Go to photo"
                                 />
                             </Link>
                             <Link
-                                to="bio"
-                                title={personData.name}
+                                to={`/inmemoria/person/${params.id}/bio`}
+                                title={data.firstName + ' ' + data.lastName}
                                 className="inmemoria-person-page-card-header-name"
                             >
-                                {personData.name}
+                                {data.firstName + ' ' + data.lastName}
                             </Link>
                         </div>
                         <div className="inmemoria-person-page-card-content">
-                            <Link to="memories">Воспоминания</Link>
-                            <Link to="gallery">Галерея</Link>
-                            <Link to="hikes">Маршруты</Link>
-                            <Link to="bio">Жизнь</Link>
-                            <Link to="photo">Фото</Link>
+                            <Link
+                                to={`/inmemoria/person/${params.id}/memories`}
+                            >
+                                Воспоминания
+                            </Link>
+                            <Link to={`/inmemoria/person/${params.id}/gallery`}>
+                                Галерея
+                            </Link>
+                            <Link to={`/inmemoria/person/${params.id}/hikes`}>
+                                Маршруты
+                            </Link>
+                            <Link to={`/inmemoria/person/${params.id}/bio`}>
+                                Жизнь
+                            </Link>
+                            <Link to={`/inmemoria/person/${params.id}/photo`}>
+                                Фото
+                            </Link>
                         </div>
                     </div>
                 </div>
                 <div className="inmemoria-person-page-content">
                     <h1 className="inmemoria-person-page-title">
-                        {personData.name}
+                        {data.firstName + ' ' + data.lastName}
                     </h1>
                     <Routes>
                         <Route path="photo" element={<PersonPagePhoto />} />

@@ -1,38 +1,26 @@
 /* eslint-disable max-len */
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './personPageBio.css'
-import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
+import { useParams } from 'react-router-dom'
+import { useGetPersonByIdQuery } from '../data/inmemoriaApi.ts'
+import { PersonPageParams } from './PersonPage.tsx'
 
 export const PersonPageBio: React.FC = () => {
-    const [bio, setBio] = useState<string>('')
-    const [loading, setLoading] = useState(true)
+    const params = useParams<PersonPageParams>()
+    const { data, isLoading, isError } = useGetPersonByIdQuery(params.id ?? '')
 
-    useEffect(() => {
-        const fetchData = async (): Promise<void> => {
-            try {
-                const data = await inmemoriaFakeApi.getBio()
-                setBio(data)
-            } catch (error) {
-                console.error('Error fetching bio:', error)
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        void fetchData()
-    }, [])
-    if (loading) {
-        return <div>Loading bio...</div>
+    if (!params.id) {
+        return <div>No id provided</div>
     }
 
-    if (!bio) {
-        return <div>No bio available</div>
+    if (isLoading || isError || !data) {
+        return <div>Загрузка...</div>
     }
 
     return (
         <div
             className="inmemoria-person-page-bio"
-            dangerouslySetInnerHTML={{ __html: bio }}
+            dangerouslySetInnerHTML={{ __html: data.bio }}
         />
     )
 }

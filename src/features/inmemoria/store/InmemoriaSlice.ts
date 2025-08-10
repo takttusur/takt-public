@@ -1,5 +1,5 @@
 import { CurrentPersonModel } from './CurrentPersonModel.ts'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 export interface InmemoriaState {
     current?: CurrentPersonModel
@@ -12,17 +12,10 @@ const defaultState: InmemoriaState = {
 export const inmemoriaSlice = createSlice({
     name: 'inmemoria',
     initialState: defaultState,
-    reducers: {
-        setCurrentPerson: (
-            state,
-            action: PayloadAction<CurrentPersonModel>
-        ) => {
-            state.current = action.payload
-        },
-    },
+    reducers: {},
 })
 
-export const { setCurrentPerson } = inmemoriaSlice.actions
+// export const { setCurrentPerson } = inmemoriaSlice.actions
 
 // Type for the slice reducer
 export type InmemoriaReducer = typeof inmemoriaSlice.reducer

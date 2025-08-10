@@ -20,7 +20,7 @@
     width: 40px;
     height: 100%;
     border: medium;
-    background: transparent url('../images/lupa.png') center no-repeat;
+    background: transparent;
     background-size: 30px;
     cursor: pointer;
 }

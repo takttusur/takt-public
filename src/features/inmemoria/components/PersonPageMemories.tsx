@@ -1,38 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './personPageMemories.css'
-import { MemoriesRecord } from '../types/MemoriesRecord'
-import { inmemoriaFakeApi } from '../data/api/inmemoriaFakeApi.ts'
+import { useParams } from 'react-router-dom'
+import { useGetMemoriesByPersonIdQuery } from '../data/inmemoriaApi.ts'
+import { PersonPageParams } from './PersonPage.tsx'
 
 export const PersonPageMemories: React.FC = () => {
-    const [memories, setMemories] = useState<MemoriesRecord[]>([])
-    const [loading, setLoading] = useState(true)
+    const params = useParams<PersonPageParams>()
+    const { data, isLoading, isError } = useGetMemoriesByPersonIdQuery(
+        params.id ?? ''
+    )
 
-    useEffect(() => {
-        const fetchData = async (): Promise<void> => {
-            try {
-                const data = await inmemoriaFakeApi.getMemories()
-                setMemories(data)
-            } catch (error) {
-                console.error('Error fetching memories:', error)
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        void fetchData()
-    }, [])
-
-    if (loading) {
-        return <div>Loading memories...</div>
+    if (!params.id) {
+        return <div>No id provided</div>
     }
 
-    if (memories.length === 0) {
-        return <div>No memories available</div>
+    if (isLoading || isError) {
+        return <div>Загружаем воспоминания...</div>
+    }
+
+    if (!data || data.length === 0) {
+        return <div>Пока нет воспоминаний</div>
     }
 
     return (
         <div className="inmemoria-person-page-memories">
-            {memories.map((memory) => (
+            {data.map((memory) => (
                 <div
                     className="inmemoria-person-page-memories-card"
                     key={memory.id}
@@ -44,7 +36,9 @@ export const PersonPageMemories: React.FC = () => {
                     <div className="inmemoria-person-page-memories-card-signature">
                         <span>{memory.author}</span>
                         &nbsp;
-                        <span>{memory.date.toLocaleDateString()}</span>
+                        <span>
+                            {new Date(memory.date).toLocaleDateString()}
+                        </span>
                     </div>
                 </div>
             ))}

@@ -8,7 +8,7 @@ const Header: React.FC = () => {
     return (
         <header className="inmemoria-header">
             <div className="inmemoria-header-line">
-                <Link to="" className="inmemoria-header-title">
+                <Link to="/inmemoria" className="inmemoria-header-title">
                     <div className="inmemoria-header-logo"></div>
                 </Link>
                 <div className="inmemoria-header-epigraph">
@@ -20,7 +20,7 @@ const Header: React.FC = () => {
                     <Search />
                 </div>
                 <div className="inmemoria-header-link">
-                    <Link to="list">Те, кого с нами нет...</Link>
+                    <Link to="/inmemoria/list">Те, кого с нами нет...</Link>
                 </div>
             </div>
         </header>
