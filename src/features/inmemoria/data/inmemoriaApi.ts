@@ -53,9 +53,11 @@ export type PhotosResultModel = {
     title: string
 }
 
+const baseUrl = import.meta.env.VITE_API_URL as string
+
 export const inmemoriaApi = createApi({
     reducerPath: 'inmemoriaApi',
-    baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: baseUrl ?? '/api' }),
     endpoints: (build) => ({
         getCarouselPerson: build.query<
             CarouselPerson[],
