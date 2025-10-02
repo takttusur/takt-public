@@ -3,6 +3,7 @@ import './peopleCarousel.css'
 import PeopleCarouselCard from './PeopleCarouselCard.tsx'
 import { CarouselPerson } from '../types/CarouselPerson'
 import { useGetCarouselPersonQuery } from '../data/inmemoriaApi.ts'
+import detectLayout from '../utils/personLayoutHelper.ts'
 
 const PeopleCarousel: React.FC = () => {
     const { data, isLoading, isError, refetch } = useGetCarouselPersonQuery()
@@ -50,7 +51,7 @@ const PeopleCarousel: React.FC = () => {
                         key={i.id}
                         name={i.name}
                         imageSrc={i.imageSrc}
-                        backgroundImage={i.backgroundImage}
+                        layout={detectLayout(i.layout)}
                         id={i.id}
                     />
                 ))}

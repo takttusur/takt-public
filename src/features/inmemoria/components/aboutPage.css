@@ -59,3 +59,8 @@
     color: black;
     padding: 5px;
 }
+
+.inmemoria-about-content__remarks {
+    font-family: Georgia, serif;
+    font-style: italic;
+}

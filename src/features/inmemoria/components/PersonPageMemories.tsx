@@ -1,14 +1,12 @@
 import React from 'react'
 import './personPageMemories.css'
 import { useParams } from 'react-router-dom'
-import { useGetMemoriesByPersonIdQuery } from '../data/inmemoriaApi.ts'
+import { useGetPersonByIdQuery } from '../data/inmemoriaApi.ts'
 import { PersonPageParams } from './PersonPage.tsx'
 
 export const PersonPageMemories: React.FC = () => {
     const params = useParams<PersonPageParams>()
-    const { data, isLoading, isError } = useGetMemoriesByPersonIdQuery(
-        params.id ?? ''
-    )
+    const { data, isLoading, isError } = useGetPersonByIdQuery(params.id ?? '')
 
     if (!params.id) {
         return <div>No id provided</div>
@@ -18,26 +16,28 @@ export const PersonPageMemories: React.FC = () => {
         return <div>Загружаем воспоминания...</div>
     }
 
-    if (!data || data.length === 0) {
+    const memories = data?.memories
+
+    if (!memories) {
         return <div>Пока нет воспоминаний</div>
     }
 
     return (
         <div className="inmemoria-person-page-memories">
-            {data.map((memory) => (
+            {memories.map((memory) => (
                 <div
                     className="inmemoria-person-page-memories-card"
                     key={memory.id}
                 >
                     <div
                         className="inmemoria-person-page-memories-card-text"
-                        dangerouslySetInnerHTML={{ __html: memory.text }}
+                        dangerouslySetInnerHTML={{ __html: memory.data }}
                     />
                     <div className="inmemoria-person-page-memories-card-signature">
-                        <span>{memory.author}</span>
+                        <span>{memory.subtitle}</span>
                         &nbsp;
                         <span>
-                            {new Date(memory.date).toLocaleDateString()}
+                            {new Date(memory.createdAt).toLocaleDateString()}
                         </span>
                     </div>
                 </div>

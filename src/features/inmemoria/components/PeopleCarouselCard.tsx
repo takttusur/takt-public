@@ -1,37 +1,23 @@
 import React from 'react'
 import './peopleCarouselCard.css'
 import { Link } from 'react-router-dom'
+import { PersonCardDesign } from '../types/PersonCardDesign.ts'
+import { layoutImagesPath } from '../data/personLayouts.ts'
 
 interface PeopleCarouselCardProps {
     imageSrc?: string
-    backgroundImage: string
+    layout: PersonCardDesign
     name: string
     id: number
 }
 
-const getRandomNumber = (min: number, max: number): number => {
-    return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
 const PeopleCarouselCard: React.FC<PeopleCarouselCardProps> = ({
     imageSrc,
-    backgroundImage,
+    layout,
     name,
     id,
 }) => {
-    // Margins for the links
-    const m1 = getRandomNumber(1, 4) * 5 // max 20px
-    const m2 = getRandomNumber(1, 4) * 5
-    const m3 = getRandomNumber(1, 6) * 5 // max 30px
-    const m4 = getRandomNumber(1, 6) * 5
-
-    // Horizontal position
-    const h1 = getRandomNumber(1, 10) * 5 // max 50px
-    const h2 = getRandomNumber(1, 10) * 5
-    const h3 = getRandomNumber(1, 10) * 5
-    const h4 = getRandomNumber(1, 10) * 5
-
-    const imgUrl = new URL(`../images/${backgroundImage}`, import.meta.url).href
+    const imgUrl = layoutImagesPath + layout.image
 
     return (
         <div
@@ -56,25 +42,37 @@ const PeopleCarouselCard: React.FC<PeopleCarouselCardProps> = ({
             <div className="inmemoria-people-carousel-card-links">
                 <Link
                     to={`/inmemoria/person/${id}/memories`}
-                    style={{ marginTop: m1, marginLeft: h1 }}
+                    style={{
+                        marginTop: layout.memoriesTop,
+                        marginLeft: layout.memoriesLeft,
+                    }}
                 >
                     Воспоминания
                 </Link>
                 <Link
                     to={`/inmemoria/person/${id}/gallery`}
-                    style={{ marginTop: m2, marginLeft: h2 }}
+                    style={{
+                        marginTop: layout.galleryTop,
+                        marginLeft: layout.galleryLeft,
+                    }}
                 >
                     Галерея
                 </Link>
                 <Link
                     to={`/inmemoria/person/${id}/hikes`}
-                    style={{ marginTop: m3, marginLeft: h3 }}
+                    style={{
+                        marginTop: layout.hikesTop,
+                        marginLeft: layout.hikesLeft,
+                    }}
                 >
                     Маршруты
                 </Link>
                 <Link
                     to={`/inmemoria/person/${id}/bio`}
-                    style={{ marginTop: m4, marginLeft: h4 }}
+                    style={{
+                        marginTop: layout.bioTop,
+                        marginLeft: layout.bioLeft,
+                    }}
                 >
                     Жизнь
                 </Link>

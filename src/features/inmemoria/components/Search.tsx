@@ -18,6 +18,7 @@ const Search: React.FC = () => {
 
     return (
         <form
+            style={{ display: 'none' }}
             className="inmemoria-header-search-form"
             action="search.php"
             method="get"

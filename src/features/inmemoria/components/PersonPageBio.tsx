@@ -20,7 +20,7 @@ export const PersonPageBio: React.FC = () => {
     return (
         <div
             className="inmemoria-person-page-bio"
-            dangerouslySetInnerHTML={{ __html: data.bio }}
+            dangerouslySetInnerHTML={{ __html: data.biography }}
         />
     )
 }

@@ -7,6 +7,8 @@ import { PersonPageHikes } from './PersonPageHikes.tsx'
 import { PersonPageBio } from './PersonPageBio.tsx'
 import { PersonPageMemories } from './PersonPageMemories.tsx'
 import { useGetPersonByIdQuery } from '../data/inmemoriaApi.ts'
+import detectLayout from '../utils/personLayoutHelper.ts'
+import { layoutImagesPath } from '../data/personLayouts.ts'
 
 export interface PersonPageParams extends Record<string, string> {
     id: string
@@ -24,20 +26,25 @@ export const PersonPage: React.FC = () => {
         return <div>Загрузка...</div>
     }
 
+    const layout = detectLayout(data.layout)
+    const imgUrl = layoutImagesPath + layout.image
+
     return (
         <div className="inmemoria-person-page">
             <div className="inmemoria-person-page-container">
                 <div className="inmemoria-person-page-sidebar">
-                    <div className="inmemoria-person-page-card">
+                    <div
+                        className="inmemoria-person-page-card"
+                        style={{
+                            backgroundImage: `url(${imgUrl})`,
+                        }}
+                    >
                         <div className="inmemoria-person-page-card-header">
                             <Link
                                 to={`/inmemoria/person/${params.id}/photo`}
                                 title={data.firstName + ' ' + data.lastName}
                             >
-                                <img
-                                    src={data.backgroundImage}
-                                    alt="Go to photo"
-                                />
+                                <img src={data.photoImage} alt="Go to photo" />
                             </Link>
                             <Link
                                 to={`/inmemoria/person/${params.id}/bio`}

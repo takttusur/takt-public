@@ -1,20 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './epigraph.css'
+import { useGetEpigraphQuery } from '../data/inmemoriaApi.ts'
+import Skeleton, {
+    SKELETON_GRAY,
+    SKELETON_RED,
+} from '../../../components/Common/Skeleton.tsx'
 
 const Epigraph: React.FC = () => {
-    const [epigraph, setEpigraph] = useState<string>('')
-
-    // This would normally fetch data from an API
-    useEffect(() => {
-        setEpigraph(
-            // eslint-disable-next-line max-len
-            '<em>И качнется бессмысленной мыслью</em><br><em>Пара фраз долетевших оттуда -</em><br><em>Я тебя никогда не забуду,</em><br><em>Я тебя никогда не увижу...</em><br><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; А.Рыбников</em>'
-        )
-    }, [])
+    const epigraphQuery = useGetEpigraphQuery()
+    const epigraph =
+        !epigraphQuery.isLoading && !!epigraphQuery.data
+            ? epigraphQuery.data
+            : undefined
+    const rand = new Date().getMilliseconds()
 
     return (
         <div className="inmemoria-epigraph">
-            <p dangerouslySetInnerHTML={{ __html: epigraph }}></p>
+            {epigraphQuery.isError && (
+                <Skeleton linesCount={4} width={160} color={SKELETON_RED} />
+            )}
+
+            {!epigraph && epigraphQuery.isLoading && (
+                <Skeleton linesCount={4} width={160} color={SKELETON_GRAY} />
+            )}
+
+            {!!epigraph && epigraph.length > 0 && (
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: epigraph[rand % epigraph.length].text,
+                    }}
+                ></div>
+            )}
         </div>
     )
 }

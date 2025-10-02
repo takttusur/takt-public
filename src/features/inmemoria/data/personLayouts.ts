@@ -1,7 +1,9 @@
 import { PersonCardDesign } from '../types/PersonCardDesign.ts'
 
-export const personCardDesigns: Record<string, PersonCardDesign> = {
-    card1: {
+export const layoutImagesPath = '/assets/inmemoria/'
+
+export const personLayouts: Record<string, PersonCardDesign> = {
+    memo1: {
         image: 'memo1.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -12,7 +14,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card2: {
+    memo2: {
         image: 'memo2.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -23,7 +25,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card3: {
+    memo3: {
         image: 'memo3.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -34,7 +36,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card4: {
+    memo4: {
         image: 'memo4.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -45,7 +47,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card5: {
+    memo5: {
         image: 'memo5.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -56,7 +58,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card6: {
+    memo6: {
         image: 'memo6.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -67,7 +69,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card7: {
+    memo7: {
         image: 'memo7.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -78,7 +80,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card8: {
+    memo8: {
         image: 'memo8.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -89,7 +91,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card9: {
+    memo9: {
         image: 'memo9.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -100,7 +102,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card10: {
+    memo10: {
         image: 'memo10.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -111,7 +113,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card11: {
+    memo11: {
         image: 'memo11.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -122,7 +124,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card12: {
+    memo12: {
         image: 'memo12.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -133,7 +135,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card13: {
+    memo13: {
         image: 'memo13.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -144,7 +146,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card14: {
+    memo14: {
         image: 'memo14.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -155,7 +157,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card15: {
+    memo15: {
         image: 'memo15.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -166,7 +168,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card16: {
+    memo16: {
         image: 'memo16.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -177,7 +179,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card17: {
+    memo17: {
         image: 'memo17.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -188,7 +190,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card18: {
+    memo18: {
         image: 'memo18.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -199,7 +201,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card19: {
+    memo19: {
         image: 'memo19.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -210,7 +212,7 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioLeft: 0,
         bioTop: 0,
     },
-    card20: {
+    memo20: {
         image: 'memo20.gif',
         memoriesLeft: 0,
         memoriesTop: 0,
@@ -222,3 +224,5 @@ export const personCardDesigns: Record<string, PersonCardDesign> = {
         bioTop: 0,
     },
 }
+
+export const fallbackLayout = personLayouts['memo1']

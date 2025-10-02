@@ -1,24 +1,29 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import './personPageGallery.css'
 import { useParams } from 'react-router-dom'
-import {
-    PhotosResultModel,
-    useGetPhotosByPersonIdQuery,
-} from '../data/inmemoriaApi.ts'
+import { useGetPersonByIdQuery } from '../data/inmemoriaApi.ts'
 import { PersonPageParams } from './PersonPage.tsx'
 
+interface PhotoModel {
+    id: number
+    image: string
+    title: string
+}
+
 export const PersonPageGallery: React.FC = () => {
-    const [photos, setPhotos] = useState<PhotosResultModel[]>([])
+    const [photos, setPhotos] = useState<PhotoModel[]>([])
     const params = useParams<PersonPageParams>()
-    const { data, isLoading, isError } = useGetPhotosByPersonIdQuery(
-        params.id ?? ''
-    )
+    const { data, isLoading, isError } = useGetPersonByIdQuery(params.id ?? '')
 
     useEffect(() => {
         if (isLoading || isError || !data) return
-        const photos: PhotosResultModel[] = []
-        data.forEach((photo) => {
-            photos.push(photo)
+        const photos: PhotoModel[] = []
+        data.photos.forEach((a) => {
+            photos.push({
+                id: a.id,
+                title: a.title,
+                image: a.data,
+            })
         })
         setPhotos(() => photos)
     }, [data, isLoading, isError])
@@ -42,7 +47,7 @@ export const PersonPageGallery: React.FC = () => {
     }, [photos])
 
     if (!params.id) {
-        return <div>No id provided</div>
+        return <div>Такой человек не найден</div>
     }
 
     if (isLoading || isError || !data) {
