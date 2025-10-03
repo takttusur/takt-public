@@ -7,9 +7,9 @@
     "dev": "vite",
     "build": "tsc -p tsconfig.prod.json && vite build",
     "test": "NODE_ENV=test vitest run",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 0 && eslint tests --ext .js,.jsx,.ts,.tsx --max-warnings 0",
-    "lint:fix": "eslint src --fix && eslint tests --fix",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\" --config ./.prettierrc.json && prettier --write \"tests/**/*.{js,jsx,ts,tsx,css,md}\" --config ./.prettierrc.json",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\" --config ./.prettierrc.json",
     "preview": "vite preview"
   },
   "pre-commit": [

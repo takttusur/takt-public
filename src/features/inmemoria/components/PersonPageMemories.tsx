@@ -12,7 +12,11 @@ export const PersonPageMemories: React.FC = () => {
         return <div>No id provided</div>
     }
 
-    if (isLoading || isError) {
+    if (isError) {
+        return <div>Ошибка загрузки воспоминаний</div>
+    }
+
+    if (isLoading) {
         return <div>Загружаем воспоминания...</div>
     }
 

@@ -13,6 +13,10 @@ export const PersonPageBio: React.FC = () => {
         return <div>No id provided</div>
     }
 
+    if (isError) {
+        return <div>Ошибка загрузки</div>
+    }
+
     if (isLoading || isError || !data) {
         return <div>Загрузка...</div>
     }
