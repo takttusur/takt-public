@@ -1,4 +1,4 @@
-name: Test develop branch, build and deploy to GitHub Pages with dev flag
+name: [develop] Test, build and deploy to GH Pages, also publish image
 on:
   push:
     branches:
@@ -17,6 +17,8 @@ env:
   BASE_URL: ${{ vars.BASE_URL }}
   YANDEX_METRIKA_ENABLED: ${{ vars.YANDEX_METRIKA_ENABLED }}
   YANDEX_METRIKA_ID: ${{ vars.YANDEX_METRIKA_ID }}
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build:
@@ -40,7 +42,7 @@ jobs:
       - name: Test
         run: npm run test
       - name: Build
-        run: npm run build -- --base=$BASE_URL
+        run: npm run build:dev -- --base=$BASE_URL
       - name: Archive artifacts
         uses: actions/upload-pages-artifact@v3
         with:
