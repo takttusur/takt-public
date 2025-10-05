@@ -1,12 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { FC, useEffect, useRef } from 'react'
 
 export interface IScrollReachedMarkerProps {
     onReached: () => void
 }
 
-export default function ScrollReachedMarker(
-    props: IScrollReachedMarkerProps
-): JSX.Element {
+const ScrollReachedMarker: FC<IScrollReachedMarkerProps> = (props) => {
     const userOnBottomMarker = useRef(null)
 
     useEffect(() => {
@@ -33,3 +31,5 @@ export default function ScrollReachedMarker(
 
     return <div ref={userOnBottomMarker}></div>
 }
+
+export default ScrollReachedMarker

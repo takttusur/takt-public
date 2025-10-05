@@ -1,7 +1,8 @@
 import { Link as RouterLink } from 'react-router-dom'
 import taktLogo from '../assets/takt.svg'
+import { FC } from 'react'
 
-export default function HomePage(): JSX.Element {
+const HomePage: FC = () => {
     return (
         <div
             style={{
@@ -40,3 +41,4 @@ export default function HomePage(): JSX.Element {
         </div>
     )
 }
+export default HomePage

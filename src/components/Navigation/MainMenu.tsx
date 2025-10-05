@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import taktLogo from '../../assets/takt.svg'
 import { HamburgerIcon, CloseIcon } from './icons'
 import NavLink, { INavLinkProps } from './NavLink'
@@ -14,7 +14,7 @@ const links: INavLinkProps[] = [
     },
 ]
 
-export default function MainMenu(): JSX.Element {
+const MainMenu: FC = () => {
     const [isOpen, setIsOpen] = useState(false)
     const toggleMenu = (): void => setIsOpen(!isOpen)
 
@@ -71,3 +71,4 @@ export default function MainMenu(): JSX.Element {
         </>
     )
 }
+export default MainMenu
