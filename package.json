@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.prod.json && vite build",
+    "build": "tsc -p tsconfig.prod.json && vite build --mode production",
+    "build:dev": "tsc -p tsconfig.prod.json && vite build --mode development",
     "test": "NODE_ENV=test vitest run",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
     "lint:fix": "eslint src --fix",

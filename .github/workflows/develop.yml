@@ -42,7 +42,7 @@ jobs:
       - name: Test
         run: npm run test
       - name: Build
-        run: npm run build -- --base=$BASE_URL
+        run: npm run build:dev -- --base=$BASE_URL
       - name: Archive artifacts
         uses: actions/upload-pages-artifact@v3
         with:

@@ -8,9 +8,13 @@ import LogRocket from 'logrocket'
 import setupLogRocketReact from 'logrocket-react'
 import EnvironmentService from './services/EnvironmentService'
 
-if (import.meta.env.DEV) {
-    const { worker } = await import('./mocks/browser')
-    await worker.start({ onUnhandledRequest: 'bypass' })
+if (import.meta.env.DEV || import.meta.env.VITE_MSW_ENABLED === 'true') {
+    ;(async () => {
+        const { worker } = await import('./mocks/browser')
+        await worker.start({ onUnhandledRequest: 'bypass' })
+    })()
+        .then()
+        .catch(console.error)
 }
 
 const queryClient = new QueryClient()
