@@ -1,0 +1,17 @@
+.nav-link {
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem; /* md size in most design systems */
+    transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+    text-decoration: none;
+    background-color: #e2e8f0; /* Equivalent to gray.200 in light mode */
+}
+
+@media (prefers-color-scheme: dark) {
+    .nav-link:hover {
+        background-color: #2d3748; /* Equivalent to gray.700 in dark mode */
+    }
+}

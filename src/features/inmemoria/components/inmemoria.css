@@ -1,0 +1,20 @@
+.inmemoria-page {
+    font-size: 13px;
+    font-family: Tahoma, Verdana, serif;
+    color: rgb(51, 51, 102);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+}
+
+.inmemoria-content {
+    background: #88b7c9;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    gap: 12px;
+}

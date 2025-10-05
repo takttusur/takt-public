@@ -1,5 +1,5 @@
 import ym, { YMInitializer } from 'react-yandex-metrika'
-import { useCallback, useEffect } from 'react'
+import { FC, useCallback, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 export interface IYandexMetrikaProps {
@@ -7,9 +7,7 @@ export interface IYandexMetrikaProps {
     id?: string
 }
 
-export default function YandexMetrikaCounter(
-    props: IYandexMetrikaProps
-): JSX.Element {
+const YandexMetrikaCounter: FC<IYandexMetrikaProps> = (props) => {
     const location = useLocation()
     const hit = useCallback(
         (url: string) => {
@@ -35,3 +33,4 @@ export default function YandexMetrikaCounter(
         />
     )
 }
+export default YandexMetrikaCounter

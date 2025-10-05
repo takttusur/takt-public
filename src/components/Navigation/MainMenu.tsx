@@ -1,62 +1,44 @@
-import {
-    Image,
-    Flex,
-    Box,
-    IconButton,
-    Stack,
-    useColorModeValue,
-    HStack,
-    useDisclosure,
-} from '@chakra-ui/react'
+import { FC, useState } from 'react'
 import taktLogo from '../../assets/takt.svg'
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, CloseIcon } from './icons'
 import NavLink, { INavLinkProps } from './NavLink'
 import { Link } from 'react-router-dom'
 import rootRoutes from '../../routes'
 import { ToNavLinkProps } from '../../utils/NavigationUtils.ts'
+import './MainMenu.css'
 
 const links: INavLinkProps[] = [
     {
         link: 'http://vk.com/takt_tusur',
         label: 'Группа VK',
     },
-    ToNavLinkProps(rootRoutes.Equipment),
-    ToNavLinkProps(rootRoutes.CurrentEvents),
 ]
 
-export default function MainMenu(): JSX.Element {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+const MainMenu: FC = () => {
+    const [isOpen, setIsOpen] = useState(false)
+    const toggleMenu = (): void => setIsOpen(!isOpen)
 
     return (
         <>
-            <Box
-                w="100%"
-                position="fixed"
-                bg={useColorModeValue('gray.100', 'gray.900')}
-                px={4}
-                zIndex={10}
-            >
-                <Flex
-                    h={16}
-                    alignItems={'center'}
-                    justifyContent={'space-between'}
-                >
-                    <IconButton
-                        size={'md'}
-                        icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-                        aria-label={'Open Menu'}
-                        display={{ md: 'none' }}
-                        onClick={isOpen ? onClose : onOpen}
-                    />
-                    <HStack spacing={8} alignItems={'center'}>
+            <div className="main-menu-container">
+                <div className="main-menu-flex">
+                    <button
+                        className="menu-button"
+                        aria-label="Open Menu"
+                        onClick={toggleMenu}
+                    >
+                        {isOpen ? <CloseIcon /> : <HamburgerIcon />}
+                    </button>
+                    <div className="menu-stack">
                         <Link to="/Home" title="Перейти главную страницу">
-                            <Image src={taktLogo} boxSize="50px" />
+                            <img
+                                src={taktLogo}
+                                alt="Takt Logo"
+                                width="50"
+                                height="50"
+                            />
                         </Link>
-                        <HStack
-                            as={'nav'}
-                            spacing={4}
-                            display={{ base: 'none', md: 'flex' }}
-                        >
+                        <nav className="nav-links">
                             {links.map((link) => (
                                 <NavLink
                                     key={link.label}
@@ -66,28 +48,27 @@ export default function MainMenu(): JSX.Element {
                                     }}
                                 />
                             ))}
-                        </HStack>
-                    </HStack>
-                </Flex>
+                        </nav>
+                    </div>
+                </div>
 
-                {isOpen ? (
-                    <Box pb={4} display={{ md: 'none' }}>
-                        <Stack as={'nav'} spacing={4}>
-                            <NavLink {...ToNavLinkProps(rootRoutes.Home)} />
-                            {links.map((link) => (
-                                <NavLink
-                                    key={link.label}
-                                    {...{
-                                        label: link.label,
-                                        link: link.link,
-                                    }}
-                                />
-                            ))}
-                        </Stack>
-                    </Box>
-                ) : null}
-            </Box>
-            <Box h={16} />
+                <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
+                    <nav className="mobile-nav-stack">
+                        <NavLink {...ToNavLinkProps(rootRoutes.Home)} />
+                        {links.map((link) => (
+                            <NavLink
+                                key={link.label}
+                                {...{
+                                    label: link.label,
+                                    link: link.link,
+                                }}
+                            />
+                        ))}
+                    </nav>
+                </div>
+            </div>
+            <div className="spacer" />
         </>
     )
 }
+export default MainMenu

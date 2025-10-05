@@ -1,5 +1,7 @@
+import React from 'react'
+
 export interface IAppRoute {
     readonly path: string
-    readonly element: JSX.Element
+    readonly element: React.ReactNode
     readonly title: string
 }

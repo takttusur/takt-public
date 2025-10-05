@@ -1,0 +1,10 @@
+.inmemoria-person-page-bio {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+}
+
+.inmemoria-person-page-bio p {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}

@@ -1,0 +1,72 @@
+.inmemoria-people-carousel-card {
+    display: block;
+    position: relative;
+    max-width: 170px;
+    min-width: 170px;
+    height: 310px;
+    border-radius: 10px;
+    border: 0 solid white;
+}
+
+.inmemoria-people-carousel-card-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 15px 3px 0 12px;
+}
+
+.inmemoria-people-carousel-card img {
+    width: 64px;
+    min-width: 64px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.6);
+    object-fit: cover;
+    object-position: center;
+}
+
+.inmemoria-people-carousel-card-name {
+    flex: 1;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #246;
+    text-align: left;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.inmemoria-people-carousel-card-name:visited {
+    color: #246;
+}
+
+.inmemoria-people-carousel-card-links {
+    display: flex;
+    margin: 15px 3px 15px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.inmemoria-people-carousel-card-links a {
+    padding: 0 3px 0 3px;
+    text-decoration: none;
+    color: #282948;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Tahoma, Verdana, serif;
+    cursor: pointer;
+}
+
+.inmemoria-people-carousel-card-links a:visited {
+    color: #282948;
+}
+
+.inmemoria-people-carousel-card-links a:hover {
+    border-radius: 3px;
+    background-color: white;
+    opacity: 0.5;
+}

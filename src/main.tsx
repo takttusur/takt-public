@@ -2,12 +2,16 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
-import { ChakraProvider } from '@chakra-ui/react'
 import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import LogRocket from 'logrocket'
 import setupLogRocketReact from 'logrocket-react'
 import EnvironmentService from './services/EnvironmentService'
+
+if (import.meta.env.DEV) {
+    const { worker } = await import('./mocks/browser')
+    await worker.start({ onUnhandledRequest: 'bypass' })
+}
 
 const queryClient = new QueryClient()
 if (
@@ -20,12 +24,10 @@ if (
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <ChakraProvider>
-            <QueryClientProvider client={queryClient}>
-                <HashRouter>
-                    <App />
-                </HashRouter>
-            </QueryClientProvider>
-        </ChakraProvider>
+        <QueryClientProvider client={queryClient}>
+            <HashRouter>
+                <App />
+            </HashRouter>
+        </QueryClientProvider>
     </React.StrictMode>
 )
