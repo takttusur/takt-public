@@ -36,7 +36,8 @@ jobs:
             touch .env.local
             echo VITE_YANDEX_METRIKA_ENABLED=$YANDEX_METRIKA_ENABLED >> .env.local
             echo VITE_YANDEX_METRIKA_ID=$YANDEX_METRIKA_ID >> .env.local
-            cat .env.local  
+            echo VITE_API_URL=$BASE_URL >> .env.local
+            cat .env.local
       - name: Lint
         run: npm run lint
       - name: Test
