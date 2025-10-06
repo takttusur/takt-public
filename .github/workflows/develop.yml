@@ -1,4 +1,4 @@
-name: [develop] Test, build and deploy to GH Pages, also publish image
+name: DEVELOP Test build  publish image
 on:
   push:
     branches:
