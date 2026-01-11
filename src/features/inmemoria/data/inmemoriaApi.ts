@@ -66,11 +66,13 @@ export type MemoriesResultModel = {
     id: number
 }
 
-const baseUrl = import.meta.env.VITE_API_URL as string
+const baseUrl =
+    (import.meta.env.VITE_API_URL as string | undefined) ??
+    `${import.meta.env.BASE_URL}api`
 
 export const inmemoriaApi = createApi({
     reducerPath: 'inmemoriaApi',
-    baseQuery: fetchBaseQuery({ baseUrl: baseUrl ?? '/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
     endpoints: (build) => ({
         getCarouselPerson: build.query<
             CarouselPerson[],
