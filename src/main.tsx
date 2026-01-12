@@ -9,17 +9,17 @@ import setupLogRocketReact from 'logrocket-react'
 import EnvironmentService from './services/EnvironmentService'
 import { tryEnableMocking } from './mocks/enableMocking.ts'
 
-const queryClient = new QueryClient()
-if (
-    EnvironmentService.LogrocketEnabled &&
-    EnvironmentService.LogrocketId?.length > 0
-) {
-    LogRocket.init(EnvironmentService.LogrocketId)
-    setupLogRocketReact(LogRocket)
-}
-
 tryEnableMocking()
     .then(() => {
+        const queryClient = new QueryClient()
+        if (
+            EnvironmentService.LogrocketEnabled &&
+            EnvironmentService.LogrocketId?.length > 0
+        ) {
+            LogRocket.init(EnvironmentService.LogrocketId)
+            setupLogRocketReact(LogRocket)
+        }
+
         ReactDOM.createRoot(document.getElementById('root')!).render(
             <React.StrictMode>
                 <QueryClientProvider client={queryClient}>
