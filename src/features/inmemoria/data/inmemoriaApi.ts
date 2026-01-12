@@ -66,9 +66,7 @@ export type MemoriesResultModel = {
     id: number
 }
 
-const baseUrl =
-    (import.meta.env.VITE_API_URL as string | undefined) ??
-    `${import.meta.env.BASE_URL}api`
+const baseUrl = import.meta.env.VITE_API_URL as string
 
 export const inmemoriaApi = createApi({
     reducerPath: 'inmemoriaApi',
