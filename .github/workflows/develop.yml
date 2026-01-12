@@ -33,17 +33,16 @@ jobs:
         run: npm ci
       - name: Create env file
         run: |
-            touch .env.local
-            echo VITE_YANDEX_METRIKA_ENABLED=$YANDEX_METRIKA_ENABLED >> .env.local
-            echo VITE_YANDEX_METRIKA_ID=$YANDEX_METRIKA_ID >> .env.local
-            echo VITE_API_URL=${BASE_URL}api >> .env.local
-            cat .env.local
+            echo VITE_YANDEX_METRIKA_ENABLED=$YANDEX_METRIKA_ENABLED >> .env.github
+            echo VITE_YANDEX_METRIKA_ID=$YANDEX_METRIKA_ID >> .env.github
+            echo VITE_API_URL=${BASE_URL}api >> .env.github
+            cat .env.github
       - name: Lint
         run: npm run lint
       - name: Test
         run: npm run test
       - name: Build
-        run: npm run build:dev -- --base=$BASE_URL
+        run: npm run build:github -- --base=$BASE_URL
       - name: Archive artifacts
         uses: actions/upload-pages-artifact@v3
         with:
