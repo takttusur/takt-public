@@ -7,20 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import LogRocket from 'logrocket'
 import setupLogRocketReact from 'logrocket-react'
 import EnvironmentService from './services/EnvironmentService'
-
-if (import.meta.env.VITE_MSW_ENABLED === 'true') {
-    ;(async () => {
-        const { worker } = await import('./mocks/browser')
-        await worker.start({
-            onUnhandledRequest: 'bypass',
-            serviceWorker: {
-                url: `${import.meta.env.BASE_URL || '/'}mockServiceWorker.js`,
-            },
-        })
-    })()
-        .then()
-        .catch(console.error)
-}
+import { tryEnableMocking } from './mocks/enableMocking.ts'
 
 const queryClient = new QueryClient()
 if (
@@ -31,12 +18,16 @@ if (
     setupLogRocketReact(LogRocket)
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <HashRouter>
-                <App />
-            </HashRouter>
-        </QueryClientProvider>
-    </React.StrictMode>
-)
+tryEnableMocking()
+    .then(() => {
+        ReactDOM.createRoot(document.getElementById('root')!).render(
+            <React.StrictMode>
+                <QueryClientProvider client={queryClient}>
+                    <HashRouter>
+                        <App />
+                    </HashRouter>
+                </QueryClientProvider>
+            </React.StrictMode>
+        )
+    })
+    .catch((e) => console.error(`Error during enabling mocking:\n${e}`))
