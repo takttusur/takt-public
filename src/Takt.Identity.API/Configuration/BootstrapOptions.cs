@@ -4,4 +4,5 @@ public sealed class BootstrapOptions
 {
     public const string SectionName = "Bootstrap";
     public string AdminUserName { get; set; } = "admin";
+    public string AdminInitialPassword { get; set; } = "Aa123456789!";
 }

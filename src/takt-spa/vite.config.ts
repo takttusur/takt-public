@@ -25,6 +25,10 @@ export default defineConfig(({ mode }) => {
             },
           }
         : undefined,
+        allowedHosts: [
+            "localhost",
+            "frontend.dev.internal"
+        ]
     },
   }
 })

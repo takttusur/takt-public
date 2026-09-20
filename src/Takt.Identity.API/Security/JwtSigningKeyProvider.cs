@@ -57,7 +57,23 @@ public sealed class JwtSigningKeyProvider : IJwtSigningKeyProvider
                     "Tokens:PrivateKeyPemPath is Development-only. In non-development environments, configure Tokens:PrivateKeyPem via secure secrets.");
             }
 
-            return File.ReadAllText(options.PrivateKeyPemPath);
+            var candidates = new[]
+            {
+                options.PrivateKeyPemPath,
+                Path.Combine(hostEnvironment.ContentRootPath, options.PrivateKeyPemPath),
+                Path.Combine(AppContext.BaseDirectory, options.PrivateKeyPemPath)
+            };
+
+            foreach (var candidate in candidates)
+            {
+                if (File.Exists(candidate))
+                {
+                    return File.ReadAllText(candidate);
+                }
+            }
+
+            throw new InvalidOperationException(
+                $"JWT signing key file was not found at '{options.PrivateKeyPemPath}'.");
         }
 
         throw new InvalidOperationException(

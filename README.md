@@ -40,8 +40,8 @@
 
 1. `docker compose up --build`
 2. Открыть `http://localhost:8080`
-3. `/api/*` уходит в .NET backend, остальные запросы — в Vite dev server с hot reload
-4. Для Aspire: `dotnet run --project src/Takt.AppHost/Takt.AppHost.csproj`
+3. Для Aspire: `dotnet run --project src/Takt.AppHost/Takt.AppHost.csproj`
+4. В Aspire запросы на `http://localhost:3333/identity/*` уходят в Identity API (с удалением префикса `/identity`), остальные — во frontend контейнер
 
 ## Развертывание
 

@@ -31,7 +31,8 @@ docker compose -f compose.yaml up --build
 ```
 
 API: `http://localhost:8081`  
-Swagger UI: `http://localhost:8081/swagger`  
+Scalar API Reference: `http://localhost:8081/scalar`  
+OpenAPI: `http://localhost:8081/openapi/v1.json`  
 Health: `http://localhost:8081/health`
 
 ## Run locally without Docker
@@ -219,6 +220,8 @@ Claims include:
 - `Passkeys__ServerDomain`
 - `Passkeys__AllowedOrigins__*`
 - `Cors__AllowedOrigins__*`
+- `Network__HttpsRedirectionEnabled` (set `false` behind reverse proxy if HTTP access should remain HTTP)
+- `Network__ExternalBaseUrl` (optional explicit public base URL, e.g. `http://localhost:3333/identity`, used by OpenAPI/Scalar servers)
 - `Bootstrap__AdminUserName`
 
 Use HTTPS and correct reverse-proxy forwarded headers in production, and set passkey RP/origins to real domains.

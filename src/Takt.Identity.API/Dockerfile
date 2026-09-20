@@ -23,5 +23,5 @@ RUN dotnet publish "./Takt.Identity.API.csproj" -c $BUILD_CONFIGURATION -o /app/
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-HEALTHCHECK --interval=30s --timeout=5s --retries=5 CMD curl --fail http://127.0.0.1:8080/health || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --retries=5 CMD curl --fail http://127.0.0.1:8080/health/ready || exit 1
 ENTRYPOINT ["dotnet", "Takt.Identity.API.dll"]

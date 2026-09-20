@@ -16,12 +16,13 @@ public sealed class IntegrationTestFixture : IAsyncLifetime
 
     public IdentityApiFactory Factory { get; private set; } = null!;
     public HttpClient Client { get; private set; } = null!;
+    public string ConnectionString => _postgres.GetConnectionString();
 
     public async Task InitializeAsync()
     {
         await _postgres.StartAsync();
-        Environment.SetEnvironmentVariable("ConnectionStrings__DefaultConnection", _postgres.GetConnectionString());
-        Factory = new IdentityApiFactory(_postgres.GetConnectionString());
+        Environment.SetEnvironmentVariable("ConnectionStrings__DefaultConnection", ConnectionString);
+        Factory = new IdentityApiFactory(ConnectionString);
         Client = Factory.CreateClient(new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false

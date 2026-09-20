@@ -13,6 +13,11 @@
       <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.5.4" />
       <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="13.5.4" />
       <PackageReference Include="Aspire.Hosting.Redis" Version="13.5.4" />
+      <PackageReference Include="Aspire.Hosting.Yarp" Version="13.5.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Takt.Identity.API\Takt.Identity.API.csproj" />
     </ItemGroup>
 
 </Project>

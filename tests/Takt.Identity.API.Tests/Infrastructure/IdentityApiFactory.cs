@@ -8,7 +8,9 @@ using Takt.Identity.API.Persistence;
 
 namespace Takt.Identity.API.Tests.Infrastructure;
 
-public sealed class IdentityApiFactory(string connectionString) : WebApplicationFactory<Program>
+public sealed class IdentityApiFactory(
+    string connectionString,
+    IReadOnlyDictionary<string, string?>? configurationOverrides = null) : WebApplicationFactory<Program>
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {
@@ -25,8 +27,18 @@ public sealed class IdentityApiFactory(string connectionString) : WebApplication
                 ["Passkeys:ServerDomain"] = "localhost",
                 ["Passkeys:AllowedOrigins:0"] = "http://localhost",
                 ["Cors:AllowedOrigins:0"] = "http://localhost",
+                ["Network:HttpsRedirectionEnabled"] = "false",
                 ["Database:ApplyMigrationsOnStartup"] = "true"
             };
+
+            if (configurationOverrides is not null)
+            {
+                foreach (var pair in configurationOverrides)
+                {
+                    settings[pair.Key] = pair.Value;
+                }
+            }
+
             configBuilder.AddInMemoryCollection(settings);
         });
 

@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Takt.Identity.API.Configuration;
@@ -10,20 +9,21 @@ namespace Takt.Identity.API.Bootstrap;
 public sealed class BootstrapService(
     UserManager<ApplicationUser> userManager,
     RoleManager<IdentityRole<long>> roleManager,
-    IOptions<BootstrapOptions> optionsAccessor)
+    IOptions<BootstrapOptions> optionsAccessor,
+    ILogger<BootstrapService> logger)
 {
     public async Task BootstrapInitialAdminAsync(CancellationToken cancellationToken)
     {
         var options = optionsAccessor.Value;
         foreach (var role in SystemRoles.All)
         {
-            if (!await roleManager.RoleExistsAsync(role))
+            cancellationToken.ThrowIfCancellationRequested();
+            if (await roleManager.RoleExistsAsync(role)) continue;
+            
+            var roleResult = await roleManager.CreateAsync(new IdentityRole<long>(role));
+            if (!roleResult.Succeeded)
             {
-                var roleResult = await roleManager.CreateAsync(new IdentityRole<long>(role));
-                if (!roleResult.Succeeded)
-                {
-                    throw new InvalidOperationException($"Role creation failed: {string.Join(", ", roleResult.Errors.Select(x => x.Description))}");
-                }
+                throw new InvalidOperationException($"Role creation failed: {string.Join(", ", roleResult.Errors.Select(x => x.Description))}");
             }
         }
 
@@ -33,7 +33,7 @@ public sealed class BootstrapService(
             return;
         }
 
-        var password = CreatePassword();
+        var password = options.AdminInitialPassword;
         var user = new ApplicationUser
         {
             UserName = options.AdminUserName,
@@ -55,56 +55,6 @@ public sealed class BootstrapService(
             throw new InvalidOperationException($"Admin role assignment failed: {string.Join(", ", roleAssignResult.Errors.Select(x => x.Description))}");
         }
 
-        Console.WriteLine("========================================");
-        Console.WriteLine("INITIAL ADMINISTRATOR CREATED");
-        Console.WriteLine();
-        Console.WriteLine($"Username: {user.UserName}");
-        Console.WriteLine($"Password: {password}");
-        Console.WriteLine();
-        Console.WriteLine("IMPORTANT:");
-        Console.WriteLine("Save this password securely.");
-        Console.WriteLine("It will not be displayed again.");
-        Console.WriteLine("TOTP setup is required on first login.");
-        Console.WriteLine("========================================");
-    }
-
-    private static string CreatePassword()
-    {
-        const string upper = "ABCDEFGHJKLMNPQRSTUVWXYZ";
-        const string lower = "abcdefghijkmnopqrstuvwxyz";
-        const string digits = "23456789";
-        const string special = "!@$%^&*()-_=+";
-        const string all = upper + lower + digits + special;
-
-        var chars = new List<char>(24)
-        {
-            Pick(upper),
-            Pick(lower),
-            Pick(digits),
-            Pick(special)
-        };
-
-        for (var i = chars.Count; i < 24; i++)
-        {
-            chars.Add(Pick(all));
-        }
-
-        Shuffle(chars);
-        return new string(chars.ToArray());
-    }
-
-    private static char Pick(string chars)
-    {
-        var index = RandomNumberGenerator.GetInt32(chars.Length);
-        return chars[index];
-    }
-
-    private static void Shuffle(IList<char> chars)
-    {
-        for (var i = chars.Count - 1; i > 0; i--)
-        {
-            var j = RandomNumberGenerator.GetInt32(i + 1);
-            (chars[i], chars[j]) = (chars[j], chars[i]);
-        }
+        logger.LogInformation("User created: {user}", user.UserName);
     }
 }
