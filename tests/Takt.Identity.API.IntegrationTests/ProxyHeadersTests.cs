@@ -1,25 +1,24 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Text.Json.Nodes;
-using Takt.Identity.API.Tests.Infrastructure;
+using Takt.Identity.API.IntegrationTests.Infrastructure;
 
-namespace Takt.Identity.API.Tests;
+namespace Takt.Identity.API.IntegrationTests;
 
-[Collection(IntegrationCollection.Name)]
-public sealed class ProxyHeadersTests(IntegrationTestFixture fixture)
+public sealed class ProxyHeadersTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task HealthEndpoint_DoesNotRedirectToHttps_ByDefault()
     {
-        var response = await fixture.Client.GetAsync("/health");
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var response = await Fixture.Client.GetAsync("/health");
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
-    [Fact]
+    [Test]
     public async Task HttpsRedirection_UsesForwardedHostAndPrefix_WhenEnabled()
     {
         await using var factory = new IdentityApiFactory(
-            fixture.ConnectionString,
+            Fixture.ConnectionString,
             new Dictionary<string, string?>
             {
                 ["Network:HttpsRedirectionEnabled"] = "true",
@@ -38,11 +37,11 @@ public sealed class ProxyHeadersTests(IntegrationTestFixture fixture)
 
         var response = await client.SendAsync(request);
 
-        Assert.Equal(HttpStatusCode.TemporaryRedirect, response.StatusCode);
-        Assert.Equal("https://gateway.local/identity/health", response.Headers.Location?.ToString());
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.TemporaryRedirect));
+        Assert.That(response.Headers.Location?.ToString(), Is.EqualTo("https://gateway.local/identity/health"));
     }
 
-    [Fact]
+    [Test]
     public async Task OpenApiAndScalar_UseForwardedPrefix()
     {
         using var openApiRequest = new HttpRequestMessage(HttpMethod.Get, "/openapi/v1.json");
@@ -50,43 +49,44 @@ public sealed class ProxyHeadersTests(IntegrationTestFixture fixture)
         openApiRequest.Headers.TryAddWithoutValidation("X-Forwarded-Host", "gateway.local");
         openApiRequest.Headers.TryAddWithoutValidation("X-Forwarded-Prefix", "/identity");
 
-        var openApiResponse = await fixture.Client.SendAsync(openApiRequest);
-        Assert.Equal(HttpStatusCode.OK, openApiResponse.StatusCode);
+        var openApiResponse = await Fixture.Client.SendAsync(openApiRequest);
+        Assert.That(openApiResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
         var openApiContent = await openApiResponse.Content.ReadAsStringAsync();
         var openApiNode = JsonNode.Parse(openApiContent)!.AsObject();
         var serverUrl = openApiNode["servers"]?[0]?["url"]?.GetValue<string>();
         var paths = openApiNode["paths"]?.AsObject();
-        Assert.Equal("http://gateway.local/identity", serverUrl);
-        Assert.NotNull(paths);
-        Assert.NotEmpty(paths!);
+        Assert.That(serverUrl, Is.EqualTo("http://gateway.local/identity"));
+        Assert.That(paths, Is.Not.Null);
+        var nonNullPaths = paths!;
+        Assert.That(nonNullPaths, Is.Not.Empty);
 
-        var accountMePath = paths!.FirstOrDefault(kv => kv.Key.EndsWith("/account/me", StringComparison.Ordinal)).Key;
-        var passwordLoginPath = paths.FirstOrDefault(kv => kv.Key.EndsWith("/auth/password/login", StringComparison.Ordinal)).Key;
-        Assert.False(string.IsNullOrWhiteSpace(accountMePath));
-        Assert.False(string.IsNullOrWhiteSpace(passwordLoginPath));
+        var accountMePath = nonNullPaths.FirstOrDefault(kv => kv.Key.EndsWith("/account/me", StringComparison.Ordinal)).Key;
+        var passwordLoginPath = nonNullPaths.FirstOrDefault(kv => kv.Key.EndsWith("/auth/password/login", StringComparison.Ordinal)).Key;
+        Assert.That(string.IsNullOrWhiteSpace(accountMePath), Is.False);
+        Assert.That(string.IsNullOrWhiteSpace(passwordLoginPath), Is.False);
 
-        var accountMeSecurity = paths[accountMePath]?["get"]?["security"]?.AsArray();
-        Assert.NotNull(accountMeSecurity);
-        Assert.NotEmpty(accountMeSecurity!);
+        var accountMeSecurity = nonNullPaths[accountMePath]?["get"]?["security"]?.AsArray();
+        Assert.That(accountMeSecurity, Is.Not.Null);
+        Assert.That(accountMeSecurity!, Is.Not.Empty);
 
-        var loginSecurity = paths[passwordLoginPath]?["post"]?["security"];
-        Assert.True(loginSecurity is null || loginSecurity.AsArray().Count == 0);
+        var loginSecurity = nonNullPaths[passwordLoginPath]?["post"]?["security"];
+        Assert.That(loginSecurity is null || loginSecurity.AsArray().Count == 0, Is.True);
 
         using var scalarRequest = new HttpRequestMessage(HttpMethod.Get, "/scalar/v1");
         scalarRequest.Headers.TryAddWithoutValidation("X-Forwarded-Proto", "http");
         scalarRequest.Headers.TryAddWithoutValidation("X-Forwarded-Host", "gateway.local");
         scalarRequest.Headers.TryAddWithoutValidation("X-Forwarded-Prefix", "/identity");
 
-        var scalarResponse = await fixture.Client.SendAsync(scalarRequest);
-        Assert.Equal(HttpStatusCode.OK, scalarResponse.StatusCode);
+        var scalarResponse = await Fixture.Client.SendAsync(scalarRequest);
+        Assert.That(scalarResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
-    [Fact]
+    [Test]
     public async Task OpenApi_UsesConfiguredExternalBaseUrl_WhenProvided()
     {
         await using var factory = new IdentityApiFactory(
-            fixture.ConnectionString,
+            Fixture.ConnectionString,
             new Dictionary<string, string?>
             {
                 ["Network:BaseUrl"] = "http://localhost:3333/identity"
@@ -98,11 +98,11 @@ public sealed class ProxyHeadersTests(IntegrationTestFixture fixture)
         });
 
         var response = await client.GetAsync("/openapi/v1.json");
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
         var content = await response.Content.ReadAsStringAsync();
         var openApiNode = JsonNode.Parse(content)!.AsObject();
         var serverUrl = openApiNode["servers"]?[0]?["url"]?.GetValue<string>();
-        Assert.Equal("http://localhost:3333/identity", serverUrl);
+        Assert.That(serverUrl, Is.EqualTo("http://localhost:3333/identity"));
     }
 }

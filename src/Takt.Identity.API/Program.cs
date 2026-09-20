@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
@@ -13,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Scalar.AspNetCore;
 using Takt.Identity.API.Bootstrap;
+using Takt.Identity.API.Authorization;
 using AppTokenOptions = Takt.Identity.API.Configuration.TokenOptions;
 using Takt.Identity.API.Configuration;
 using Takt.Identity.API.Controllers;
@@ -108,14 +110,11 @@ public sealed class Program
             .AddEntityFrameworkStores<IdentityAppDbContext>()
             .AddDefaultTokenProviders();
 
-        builder.Services.AddScoped<IRandomTokenGenerator, RandomTokenGenerator>();
-        builder.Services.AddScoped<ITokenHasher, TokenHasher>();
         builder.Services.AddScoped<IAuthFlowStateService, AuthFlowStateService>();
         builder.Services.AddSingleton<IJwtSigningKeyProvider, JwtSigningKeyProvider>();
         builder.Services.AddScoped<ITokenService, TokenService>();
-        builder.Services.AddScoped<IAuditService, AuditService>();
         builder.Services.AddScoped<BootstrapService>();
-        builder.Services.AddScoped<StrongAuthenticationPolicy>();
+        builder.Services.AddSingleton<IAuthorizationHandler, StrongAuthenticationFreshHandler>();
         builder.Services.AddSingleton(TimeProvider.System);
 
         builder.Services.AddRateLimiter(options =>
@@ -180,6 +179,9 @@ public sealed class Program
         builder.Services.AddAuthorization(options =>
         {
             options.AddPolicy(Policies.AdminOnly, policy => policy.RequireRole(SystemRoles.Admin));
+            options.AddPolicy(Policies.StrongAuthenticationFresh, policy =>
+                policy.RequireAuthenticatedUser()
+                    .AddRequirements(new StrongAuthenticationFreshRequirement()));
         });
 
         builder.Services.AddHealthChecks()
@@ -259,7 +261,7 @@ public sealed class Program
         using (var scope = app.Services.CreateScope())
         {
             var dbOptions = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-            if (migrateOnly)
+            if (migrateOnly || dbOptions.ApplyMigrationsOnStartup)
             {
                 var db = scope.ServiceProvider.GetRequiredService<IdentityAppDbContext>();
                 await db.Database.MigrateAsync();

@@ -3,9 +3,9 @@ using DotNet.Testcontainers.Containers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Testcontainers.PostgreSql;
 
-namespace Takt.Identity.API.Tests.Infrastructure;
+namespace Takt.Identity.API.IntegrationTests.Infrastructure;
 
-public sealed class IntegrationTestFixture : IAsyncLifetime
+public sealed class IntegrationTestFixture
 {
     private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:17")
         .WithDatabase("takt_identity_test")
@@ -36,10 +36,4 @@ public sealed class IntegrationTestFixture : IAsyncLifetime
         await _postgres.DisposeAsync();
         Environment.SetEnvironmentVariable("ConnectionStrings__DefaultConnection", null);
     }
-}
-
-[CollectionDefinition(Name)]
-public sealed class IntegrationCollection : ICollectionFixture<IntegrationTestFixture>
-{
-    public const string Name = "integration";
 }

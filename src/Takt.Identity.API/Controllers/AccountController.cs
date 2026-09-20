@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Takt.Identity.API.Configuration;
+using Takt.Identity.API.Constants;
 using Takt.Identity.API.Persistence;
 using Takt.Identity.API.Services;
 
@@ -217,7 +218,10 @@ public sealed class AccountController : ControllerBase
             return Unauthorized();
         }
 
-        var currentUserId = User.GetUserId();
+        var currentUserIdRaw = userManager.GetUserId(User);
+        var currentUserId = long.TryParse(currentUserIdRaw, out var parsedCurrentUserId)
+            ? parsedCurrentUserId
+            : (long?)null;
         if (currentUserId is null || currentUserId != state.UserId)
         {
             return Forbid();
@@ -294,18 +298,12 @@ public sealed class AccountController : ControllerBase
     }
 
     [HttpPatch("passkeys/{id}")]
-    [Authorize]
+    [Authorize(Policy = Policies.StrongAuthenticationFresh)]
     public async Task<IActionResult> RenamePasskeyAsync(
         [FromRoute] string id,
         [FromBody] RenamePasskeyRequest request,
-        [FromServices] UserManager<ApplicationUser> userManager,
-        [FromServices] StrongAuthenticationPolicy strongAuthenticationPolicy)
+        [FromServices] UserManager<ApplicationUser> userManager)
     {
-        if (!strongAuthenticationPolicy.IsFresh(User))
-        {
-            return Problem("Recent strong authentication is required.", statusCode: StatusCodes.Status403Forbidden);
-        }
-
         var user = await userManager.GetUserAsync(User);
         if (user is null)
         {
@@ -339,17 +337,11 @@ public sealed class AccountController : ControllerBase
     }
 
     [HttpDelete("passkeys/{id}")]
-    [Authorize]
+    [Authorize(Policy = Policies.StrongAuthenticationFresh)]
     public async Task<IActionResult> DeletePasskeyAsync(
         [FromRoute] string id,
-        [FromServices] UserManager<ApplicationUser> userManager,
-        [FromServices] StrongAuthenticationPolicy strongAuthenticationPolicy)
+        [FromServices] UserManager<ApplicationUser> userManager)
     {
-        if (!strongAuthenticationPolicy.IsFresh(User))
-        {
-            return Problem("Recent strong authentication is required.", statusCode: StatusCodes.Status403Forbidden);
-        }
-
         var user = await userManager.GetUserAsync(User);
         if (user is null)
         {

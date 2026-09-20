@@ -1,43 +1,42 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Takt.Identity.API.IntegrationTests.Infrastructure;
 using Takt.Identity.API.Persistence;
-using Takt.Identity.API.Services;
-using Takt.Identity.API.Tests.Infrastructure;
 
-namespace Takt.Identity.API.Tests;
+namespace Takt.Identity.API.IntegrationTests;
 
-[Collection(IntegrationCollection.Name)]
-public sealed class InvitationAndAuthTests(IntegrationTestFixture fixture)
+public sealed class InvitationAndAuthTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task CreateInvitation_RequiresAdminRole()
     {
-        var response = await fixture.Client.PostAsJsonAsync("/api/v1.0/invitations", new
+        var response = await Fixture.Client.PostAsJsonAsync("/api/v1.0/invitations", new
         {
             userName = "user1",
             role = "User"
         });
 
-        Assert.True(response.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden);
+        Assert.That(response.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden, Is.True);
     }
 
-    [Fact]
+    [Test]
     public async Task Invitation_CanBeConsumedOnlyOnce()
     {
         var token = "invite-token-123";
 
-        using (var scope = fixture.Factory.Services.CreateScope())
+        using (var scope = Fixture.Factory.Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<IdentityAppDbContext>();
-            var hasher = scope.ServiceProvider.GetRequiredService<ITokenHasher>();
             db.Invitations.Add(new Invitation
             {
                 UserName = "invited-user",
                 NormalizedUserName = "INVITED-USER",
-                TokenHash = hasher.HashToken(token),
+                TokenHash = HashToken(token),
                 Role = "User",
                 CreatedAt = DateTimeOffset.UtcNow,
                 ExpiresAt = DateTimeOffset.UtcNow.AddHours(1)
@@ -45,24 +44,24 @@ public sealed class InvitationAndAuthTests(IntegrationTestFixture fixture)
             await db.SaveChangesAsync();
         }
 
-        var first = await fixture.Client.PostAsJsonAsync($"/api/v1.0/invitations/{token}/accept", new
+        var first = await Fixture.Client.PostAsJsonAsync($"/api/v1.0/invitations/{token}/accept", new
         {
             password = "StrongPassword!1234"
         });
-        Assert.Equal(HttpStatusCode.OK, first.StatusCode);
+        Assert.That(first.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
-        var second = await fixture.Client.PostAsJsonAsync($"/api/v1.0/invitations/{token}/accept", new
+        var second = await Fixture.Client.PostAsJsonAsync($"/api/v1.0/invitations/{token}/accept", new
         {
             password = "StrongPassword!1234"
         });
 
-        Assert.True(second.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Conflict);
+        Assert.That(second.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Conflict, Is.True);
     }
 
-    [Fact]
+    [Test]
     public async Task PasswordLogin_RequiresTwoFactorSetup_WhenNotEnabled()
     {
-        using (var scope = fixture.Factory.Services.CreateScope())
+        using (var scope = Fixture.Factory.Services.CreateScope())
         {
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var user = new ApplicationUser
@@ -72,19 +71,25 @@ public sealed class InvitationAndAuthTests(IntegrationTestFixture fixture)
                 CreatedAt = DateTimeOffset.UtcNow
             };
             var result = await userManager.CreateAsync(user, "StrongPassword!1234");
-            Assert.True(result.Succeeded);
+            Assert.That(result.Succeeded, Is.True);
         }
 
-        var response = await fixture.Client.PostAsJsonAsync("/api/v1.0/auth/password/login", new
+        var response = await Fixture.Client.PostAsJsonAsync("/api/v1.0/auth/password/login", new
         {
             userName = "twofactor-user",
             password = "StrongPassword!1234"
         });
 
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         var payload = JsonNode.Parse(await response.Content.ReadAsStringAsync())!.AsObject();
-        Assert.Equal("TwoFactorSetupRequired", payload["status"]?.GetValue<string>());
-        Assert.False(payload.ContainsKey("accessToken"));
-        Assert.False(string.IsNullOrWhiteSpace(payload["setupToken"]?.GetValue<string>()));
+        Assert.That(payload["status"]?.GetValue<string>(), Is.EqualTo("TwoFactorSetupRequired"));
+        Assert.That(payload.ContainsKey("accessToken"), Is.False);
+        Assert.That(string.IsNullOrWhiteSpace(payload["setupToken"]?.GetValue<string>()), Is.False);
+    }
+
+    private static string HashToken(string token)
+    {
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(token));
+        return Convert.ToHexString(bytes);
     }
 }

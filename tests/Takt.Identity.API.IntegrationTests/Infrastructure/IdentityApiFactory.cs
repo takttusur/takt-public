@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Takt.Identity.API.Persistence;
 
-namespace Takt.Identity.API.Tests.Infrastructure;
+namespace Takt.Identity.API.IntegrationTests.Infrastructure;
 
 public sealed class IdentityApiFactory(
     string connectionString,

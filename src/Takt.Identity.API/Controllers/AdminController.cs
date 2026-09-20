@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -76,7 +77,7 @@ public sealed class AdminController : ControllerBase
     public async Task<IActionResult> DisableUserAsync(
         [FromRoute] long id,
         [FromServices] UserManager<ApplicationUser> userManager,
-        [FromServices] IAuditService auditService,
+        [FromServices] IdentityAppDbContext dbContext,
         CancellationToken cancellationToken)
     {
         var user = await userManager.FindByIdAsync(id.ToString());
@@ -108,12 +109,16 @@ public sealed class AdminController : ControllerBase
         await userManager.UpdateAsync(user);
         await userManager.UpdateSecurityStampAsync(user);
 
-        await auditService.WriteAsync(
-            "admin.user.disabled",
-            User.GetUserId(),
-            user.Id,
-            new { user.UserName },
-            cancellationToken);
+        var actorUserId = ParseUserId(userManager.GetUserId(User));
+        dbContext.AuditEvents.Add(new AuditEvent
+        {
+            EventType = "admin.user.disabled",
+            ActorUserId = actorUserId,
+            SubjectUserId = user.Id,
+            Metadata = JsonSerializer.Serialize(new { user.UserName }),
+            CreatedAt = DateTimeOffset.UtcNow
+        });
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return NoContent();
     }
@@ -122,7 +127,7 @@ public sealed class AdminController : ControllerBase
     public async Task<IActionResult> EnableUserAsync(
         [FromRoute] long id,
         [FromServices] UserManager<ApplicationUser> userManager,
-        [FromServices] IAuditService auditService,
+        [FromServices] IdentityAppDbContext dbContext,
         CancellationToken cancellationToken)
     {
         var user = await userManager.FindByIdAsync(id.ToString());
@@ -135,12 +140,16 @@ public sealed class AdminController : ControllerBase
         await userManager.UpdateAsync(user);
         await userManager.UpdateSecurityStampAsync(user);
 
-        await auditService.WriteAsync(
-            "admin.user.enabled",
-            User.GetUserId(),
-            user.Id,
-            new { user.UserName },
-            cancellationToken);
+        var actorUserId = ParseUserId(userManager.GetUserId(User));
+        dbContext.AuditEvents.Add(new AuditEvent
+        {
+            EventType = "admin.user.enabled",
+            ActorUserId = actorUserId,
+            SubjectUserId = user.Id,
+            Metadata = JsonSerializer.Serialize(new { user.UserName }),
+            CreatedAt = DateTimeOffset.UtcNow
+        });
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return NoContent();
     }
@@ -150,7 +159,7 @@ public sealed class AdminController : ControllerBase
         [FromRoute] long id,
         [FromServices] UserManager<ApplicationUser> userManager,
         [FromServices] ITokenService tokenService,
-        [FromServices] IAuditService auditService,
+        [FromServices] IdentityAppDbContext dbContext,
         CancellationToken cancellationToken)
     {
         var user = await userManager.FindByIdAsync(id.ToString());
@@ -162,15 +171,22 @@ public sealed class AdminController : ControllerBase
         await tokenService.RevokeAllUserSessionsAsync(user.Id, "admin-revocation", cancellationToken);
         await userManager.UpdateSecurityStampAsync(user);
 
-        await auditService.WriteAsync(
-            "admin.user.sessions.revoked",
-            User.GetUserId(),
-            user.Id,
-            new { user.UserName },
-            cancellationToken);
+        var actorUserId = ParseUserId(userManager.GetUserId(User));
+        dbContext.AuditEvents.Add(new AuditEvent
+        {
+            EventType = "admin.user.sessions.revoked",
+            ActorUserId = actorUserId,
+            SubjectUserId = user.Id,
+            Metadata = JsonSerializer.Serialize(new { user.UserName }),
+            CreatedAt = DateTimeOffset.UtcNow
+        });
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return NoContent();
     }
+
+    private static long? ParseUserId(string? userId) =>
+        long.TryParse(userId, out var parsed) ? parsed : null;
 }
 
 public sealed record AdminUserResponse(

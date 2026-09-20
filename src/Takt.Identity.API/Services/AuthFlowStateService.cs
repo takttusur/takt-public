@@ -1,13 +1,14 @@
 using System.Text.Json;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Takt.Identity.API.Persistence;
 
 namespace Takt.Identity.API.Services;
 
 public sealed class AuthFlowStateService(
     IdentityAppDbContext dbContext,
-    IRandomTokenGenerator tokenGenerator,
-    ITokenHasher tokenHasher,
     TimeProvider timeProvider)
     : IAuthFlowStateService
 {
@@ -18,12 +19,12 @@ public sealed class AuthFlowStateService(
         TimeSpan ttl,
         CancellationToken cancellationToken)
     {
-        var token = tokenGenerator.Create();
+        var token = Base64UrlEncoder.Encode(RandomNumberGenerator.GetBytes(32));
         var state = new AuthFlowState
         {
             Purpose = purpose,
             UserId = userId,
-            TokenHash = tokenHasher.HashToken(token),
+            TokenHash = HashToken(token),
             Payload = JsonSerializer.Serialize(payload),
             CreatedAt = timeProvider.GetUtcNow(),
             ExpiresAt = timeProvider.GetUtcNow().Add(ttl)
@@ -36,7 +37,7 @@ public sealed class AuthFlowStateService(
 
     public Task<AuthFlowState?> GetActiveAsync(string token, string purpose, CancellationToken cancellationToken)
     {
-        var tokenHash = tokenHasher.HashToken(token);
+        var tokenHash = HashToken(token);
         var now = timeProvider.GetUtcNow();
         return dbContext.AuthFlowStates
             .AsNoTracking()
@@ -50,7 +51,7 @@ public sealed class AuthFlowStateService(
 
     public async Task<bool> TryConsumeAsync(string token, string purpose, CancellationToken cancellationToken)
     {
-        var tokenHash = tokenHasher.HashToken(token);
+        var tokenHash = HashToken(token);
         var now = timeProvider.GetUtcNow();
 
         var updated = await dbContext.AuthFlowStates
@@ -63,5 +64,11 @@ public sealed class AuthFlowStateService(
                 cancellationToken);
 
         return updated == 1;
+    }
+
+    private static string HashToken(string token)
+    {
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(token));
+        return Convert.ToHexString(bytes);
     }
 }

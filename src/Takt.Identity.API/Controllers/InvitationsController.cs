@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
+using System.Text;
 using Takt.Identity.API.Configuration;
 using Takt.Identity.API.Constants;
 using Takt.Identity.API.Persistence;
@@ -22,8 +25,6 @@ public sealed class InvitationsController : ControllerBase
         [FromBody] CreateInvitationRequest request,
         [FromServices] UserManager<ApplicationUser> userManager,
         [FromServices] IdentityAppDbContext dbContext,
-        [FromServices] IRandomTokenGenerator tokenGenerator,
-        [FromServices] ITokenHasher tokenHasher,
         [FromServices] IOptions<InvitationOptions> optionsAccessor,
         CancellationToken cancellationToken)
     {
@@ -43,17 +44,17 @@ public sealed class InvitationsController : ControllerBase
         }
 
         var role = request.Role == SystemRoles.Admin ? SystemRoles.Admin : SystemRoles.User;
-        var token = tokenGenerator.Create(48);
+        var token = Base64UrlEncoder.Encode(RandomNumberGenerator.GetBytes(48));
         var now = DateTimeOffset.UtcNow;
         var invitation = new Invitation
         {
             UserName = request.UserName,
             NormalizedUserName = normalizedUserName,
-            TokenHash = tokenHasher.HashToken(token),
+            TokenHash = HashToken(token),
             Role = role,
             CreatedAt = now,
             ExpiresAt = now.AddHours(optionsAccessor.Value.LifetimeHours),
-            CreatedBy = User.GetUserId()
+            CreatedBy = ParseUserId(userManager.GetUserId(User))
         };
 
         dbContext.Invitations.Add(invitation);
@@ -77,11 +78,10 @@ public sealed class InvitationsController : ControllerBase
     public async Task<IActionResult> GetInvitationAsync(
         [FromRoute] string token,
         [FromServices] IdentityAppDbContext dbContext,
-        [FromServices] ITokenHasher tokenHasher,
         CancellationToken cancellationToken)
     {
         var now = DateTimeOffset.UtcNow;
-        var hash = tokenHasher.HashToken(token);
+        var hash = HashToken(token);
         var invitation = await dbContext.Invitations
             .AsNoTracking()
             .SingleOrDefaultAsync(x =>
@@ -103,13 +103,12 @@ public sealed class InvitationsController : ControllerBase
         [FromBody] AcceptInvitationRequest request,
         [FromServices] IdentityAppDbContext dbContext,
         [FromServices] UserManager<ApplicationUser> userManager,
-        [FromServices] ITokenHasher tokenHasher,
         [FromServices] IAuthFlowStateService authFlowStateService,
         [FromServices] IOptions<SecurityOptions> securityOptionsAccessor,
         CancellationToken cancellationToken)
     {
         var now = DateTimeOffset.UtcNow;
-        var tokenHash = tokenHasher.HashToken(token);
+        var tokenHash = HashToken(token);
 
         await using var tx = await dbContext.Database.BeginTransactionAsync(cancellationToken);
         var invitation = await dbContext.Invitations
@@ -184,6 +183,15 @@ public sealed class InvitationsController : ControllerBase
             .GroupBy(e => string.IsNullOrWhiteSpace(e.Code) ? "Identity" : e.Code)
             .ToDictionary(group => group.Key, group => group.Select(x => x.Description).ToArray());
     }
+
+    private static string HashToken(string token)
+    {
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(token));
+        return Convert.ToHexString(bytes);
+    }
+
+    private static long? ParseUserId(string? userId) =>
+        long.TryParse(userId, out var parsed) ? parsed : null;
 }
 
 public sealed record CreateInvitationRequest(string UserName, string Role);

@@ -1,8 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Takt.Identity.API.Persistence;
 using AppTokenOptions = Takt.Identity.API.Configuration.TokenOptions;
 
@@ -12,8 +15,6 @@ public sealed class TokenService(
     UserManager<ApplicationUser> userManager,
     IdentityAppDbContext dbContext,
     IJwtSigningKeyProvider signingKeyProvider,
-    IRandomTokenGenerator tokenGenerator,
-    ITokenHasher tokenHasher,
     IOptions<AppTokenOptions> tokenOptionsAccessor,
     TimeProvider timeProvider) : ITokenService
 {
@@ -44,8 +45,8 @@ public sealed class TokenService(
             signingCredentials: signingKeyProvider.SigningCredentials);
 
         var accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
-        var refreshToken = tokenGenerator.Create(48);
-        var refreshHash = tokenHasher.HashToken(refreshToken);
+        var refreshToken = Base64UrlEncoder.Encode(RandomNumberGenerator.GetBytes(48));
+        var refreshHash = HashToken(refreshToken);
 
         var refreshSession = new RefreshSession
         {
@@ -64,7 +65,7 @@ public sealed class TokenService(
     public async Task<TokenPair?> RotateRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
     {
         var now = timeProvider.GetUtcNow();
-        var refreshHash = tokenHasher.HashToken(refreshToken);
+        var refreshHash = HashToken(refreshToken);
 
         var session = await dbContext.RefreshSessions
             .SingleOrDefaultAsync(x => x.TokenHash == refreshHash, cancellationToken);
@@ -97,7 +98,7 @@ public sealed class TokenService(
     public async Task RevokeRefreshTokenAsync(string refreshToken, string reason, CancellationToken cancellationToken)
     {
         var now = timeProvider.GetUtcNow();
-        var refreshHash = tokenHasher.HashToken(refreshToken);
+        var refreshHash = HashToken(refreshToken);
 
         var updated = await dbContext.RefreshSessions
             .Where(x => x.TokenHash == refreshHash && x.RevokedAt == null)
@@ -123,5 +124,11 @@ public sealed class TokenService(
                     .SetProperty(x => x.RevokedAt, now)
                     .SetProperty(x => x.RevokeReason, reason),
                 cancellationToken);
+    }
+
+    private static string HashToken(string token)
+    {
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(token));
+        return Convert.ToHexString(bytes);
     }
 }
