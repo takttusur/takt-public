@@ -1,5 +1,9 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Takt.Services.Infrastructure.Database;
+using Takt.Services.Infrastructure.Identity;
 
 namespace Takt.Backend.WebApi;
 
@@ -16,8 +20,17 @@ public class Program
 
 		builder.Services.AddOpenApi();
 
-		var app = builder.Build();
+		builder.Services
+			.AddIdentityCore<TaktIdentityUser>()
+			.AddDefaultTokenProviders();
 
+		builder.Services.AddAuthentication(BearerTokenDefaults.AuthenticationScheme);
+		
+		var app = builder.Build();
+		
+		app.UseAuthentication();
+		app.UseAuthorization();
+		
 		if (app.Environment.IsDevelopment())
 		{
 			app.MapOpenApi();

@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="backend/Takt.AppHost/Takt.AppHost.csproj" />
-  <Project Path="backend/Takt.Services.BusinessLogic/Takt.Services.BusinessLogic.csproj" />
-  <Project Path="backend/Takt.Services.Infrastructure/Takt.Services.Infrastructure.csproj" />
-  <Project Path="backend\Takt.Services.WebApi\Takt.Services.WebApi.csproj" />
+  <Project Path="src/Takt.AppHost/Takt.AppHost.csproj" />
+  <Project Path="src/Takt.Services.BusinessLogic/Takt.Services.BusinessLogic.csproj" />
+  <Project Path="src/Takt.Services.Infrastructure/Takt.Services.Infrastructure.csproj" />
+  <Project Path="src/Takt.Services.WebApi/Takt.Services.WebApi.csproj" />
 </Solution>
