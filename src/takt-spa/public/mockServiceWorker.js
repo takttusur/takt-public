@@ -1,6 +1,5 @@
 /* eslint-disable */
 /* tslint:disable */
-// noinspection JSValidateJSDoc
 
 /**
  * Mock Service Worker.

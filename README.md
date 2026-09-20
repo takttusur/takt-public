@@ -36,6 +36,13 @@
       1. `npm run build -- --base=<youbaseurl>` - если базовый URL отличный от /
    5. `npm run dev` - для запуска дев-сервера с проектом
 
+## Локальный запуск в Docker
+
+1. `docker compose up --build`
+2. Открыть `http://localhost:8080`
+3. `/api/*` уходит в .NET backend, остальные запросы — в Vite dev server с hot reload
+4. Для Aspire: `dotnet run --project src/Takt.AppHost/Takt.AppHost.csproj`
+
 ## Развертывание
 
 Публикация выполняется при обновлении ветки `master` или создании тега `v*`,
