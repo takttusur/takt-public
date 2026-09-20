@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Identity/">
     <Project Path="src/Takt.Identity.API/Takt.Identity.API.csproj" />
+    <Project Path="tests/Takt.Identity.API.Tests/Takt.Identity.API.Tests.csproj" />
   </Folder>
   <Project Path="src/Takt.AppHost/Takt.AppHost.csproj" />
   <Project Path="src/Takt.ServiceDefaults/Takt.ServiceDefaults.csproj" />

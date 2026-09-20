@@ -1,0 +1,48 @@
+services:
+  postgresql:
+    image: postgres:17
+    container_name: takt-identity-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: takt_identity
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - takt_identity_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d takt_identity" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  identity-api:
+    build:
+      context: ../..
+      dockerfile: src/Takt.Identity.API/Dockerfile
+    container_name: takt-identity-api
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=postgresql;Port=5432;Database=takt_identity;Username=postgres;Password=postgres
+      Bootstrap__AdminUserName: admin
+      Tokens__Issuer: http://localhost:8081
+      Tokens__Audience: takt-services
+      Tokens__PrivateKeyPemPath: /keys/jwt-private.pem
+      Invitations__ActivationBaseUrl: http://localhost:5173/activate
+      Passkeys__ServerDomain: localhost
+      Passkeys__AllowedOrigins__0: http://localhost:5173
+      Passkeys__AllowedOrigins__1: http://localhost:8081
+      Cors__AllowedOrigins__0: http://localhost:5173
+    volumes:
+      - ./keys:/keys:ro
+    ports:
+      - "8081:8080"
+
+volumes:
+  takt_identity_pgdata:
