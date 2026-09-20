@@ -1,6 +1,6 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Takt.Identity.API.Security;
+using Takt.Identity.API.Services;
 
 namespace Takt.Identity.API.Controllers;
 

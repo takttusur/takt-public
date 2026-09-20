@@ -3,11 +3,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using AppTokenOptions = Takt.Identity.API.Configuration.TokenOptions;
-using Takt.Identity.API.Configuration;
 using Takt.Identity.API.Persistence;
+using AppTokenOptions = Takt.Identity.API.Configuration.TokenOptions;
 
-namespace Takt.Identity.API.Security;
+namespace Takt.Identity.API.Services;
 
 public sealed class TokenService(
     UserManager<ApplicationUser> userManager,

@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Takt.Identity.API.Persistence;
 
-namespace Takt.Identity.API.Security;
+namespace Takt.Identity.API.Services;
 
 public sealed class AuditService(IdentityAppDbContext dbContext) : IAuditService
 {

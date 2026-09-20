@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Takt.Identity.API.Configuration;
 
-namespace Takt.Identity.API.Security;
+namespace Takt.Identity.API.Services;
 
 public sealed class StrongAuthenticationPolicy(IOptions<SecurityOptions> securityOptions, TimeProvider timeProvider)
 {

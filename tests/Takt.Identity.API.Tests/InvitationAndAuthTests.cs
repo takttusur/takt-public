@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Takt.Identity.API.Persistence;
-using Takt.Identity.API.Security;
+using Takt.Identity.API.Services;
 using Takt.Identity.API.Tests.Infrastructure;
 
 namespace Takt.Identity.API.Tests;

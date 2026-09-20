@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Takt.Identity.API.Constants;
 using Takt.Identity.API.Persistence;
-using Takt.Identity.API.Security;
+using Takt.Identity.API.Services;
 
 namespace Takt.Identity.API.Controllers;
 

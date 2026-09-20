@@ -1,6 +1,6 @@
 using Microsoft.IdentityModel.Tokens;
 
-namespace Takt.Identity.API.Security;
+namespace Takt.Identity.API.Services;
 
 public interface IJwtSigningKeyProvider
 {

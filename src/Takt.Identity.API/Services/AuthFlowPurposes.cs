@@ -1,4 +1,4 @@
-namespace Takt.Identity.API.Security;
+namespace Takt.Identity.API.Services;
 
 public static class AuthFlowPurposes
 {

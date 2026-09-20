@@ -4,5 +4,5 @@ public sealed class InvitationOptions
 {
     public const string SectionName = "Invitations";
     public int LifetimeHours { get; set; } = 24;
-    public string? ActivationBaseUrl { get; set; }
+    public string? BaseUrl { get; set; }
 }

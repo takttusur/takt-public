@@ -89,7 +89,7 @@ public sealed class ProxyHeadersTests(IntegrationTestFixture fixture)
             fixture.ConnectionString,
             new Dictionary<string, string?>
             {
-                ["Network:ExternalBaseUrl"] = "http://localhost:3333/identity"
+                ["Network:BaseUrl"] = "http://localhost:3333/identity"
             });
 
         using var client = factory.CreateClient(new WebApplicationFactoryClientOptions

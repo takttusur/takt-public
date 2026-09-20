@@ -2,7 +2,7 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Takt.Identity.API.Persistence;
 
-namespace Takt.Identity.API.Security;
+namespace Takt.Identity.API.Services;
 
 public sealed class AuthFlowStateService(
     IdentityAppDbContext dbContext,

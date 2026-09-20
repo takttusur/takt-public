@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Takt.Identity.API.Configuration;
 using Takt.Identity.API.Persistence;
-using Takt.Identity.API.Security;
+using Takt.Identity.API.Services;
 
 namespace Takt.Identity.API.Controllers;
 

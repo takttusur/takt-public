@@ -1,10 +1,9 @@
 using System.Security.Cryptography;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Takt.Identity.API.Configuration;
 
-namespace Takt.Identity.API.Security;
+namespace Takt.Identity.API.Services;
 
 public sealed class JwtSigningKeyProvider : IJwtSigningKeyProvider
 {

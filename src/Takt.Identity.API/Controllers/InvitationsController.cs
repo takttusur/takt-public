@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using Takt.Identity.API.Configuration;
 using Takt.Identity.API.Constants;
 using Takt.Identity.API.Persistence;
-using Takt.Identity.API.Security;
+using Takt.Identity.API.Services;
 
 namespace Takt.Identity.API.Controllers;
 
@@ -59,9 +59,9 @@ public sealed class InvitationsController : ControllerBase
         dbContext.Invitations.Add(invitation);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        var activationUrl = string.IsNullOrWhiteSpace(optionsAccessor.Value.ActivationBaseUrl)
+        var activationUrl = string.IsNullOrWhiteSpace(optionsAccessor.Value.BaseUrl)
             ? null
-            : $"{optionsAccessor.Value.ActivationBaseUrl.TrimEnd('/')}/{token}";
+            : $"{optionsAccessor.Value.BaseUrl.TrimEnd('/')}/{token}";
 
         return Ok(new CreateInvitationResponse(
             invitation.Id,

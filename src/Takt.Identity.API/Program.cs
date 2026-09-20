@@ -19,7 +19,7 @@ using Takt.Identity.API.Controllers;
 using Takt.Identity.API.Constants;
 using Takt.Identity.API.OpenApi;
 using Takt.Identity.API.Persistence;
-using Takt.Identity.API.Security;
+using Takt.Identity.API.Services;
 
 namespace Takt.Identity.API;
 
@@ -259,7 +259,7 @@ public sealed class Program
         using (var scope = app.Services.CreateScope())
         {
             var dbOptions = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-            if (dbOptions.ApplyMigrationsOnStartup || migrateOnly || bootstrapAdminOnly)
+            if (migrateOnly)
             {
                 var db = scope.ServiceProvider.GetRequiredService<IdentityAppDbContext>();
                 await db.Database.MigrateAsync();
@@ -331,11 +331,11 @@ public sealed class Program
 
     private static string ResolveExternalBaseUrl(HttpRequest request, NetworkOptions networkOptions)
     {
-        if (!string.IsNullOrWhiteSpace(networkOptions.ExternalBaseUrl))
+        if (!string.IsNullOrWhiteSpace(networkOptions.BaseUrl))
         {
-            if (!Uri.TryCreate(networkOptions.ExternalBaseUrl, UriKind.Absolute, out var configuredBaseUrl))
+            if (!Uri.TryCreate(networkOptions.BaseUrl, UriKind.Absolute, out var configuredBaseUrl))
             {
-                throw new InvalidOperationException("Network:ExternalBaseUrl must be an absolute URL.");
+                throw new InvalidOperationException("Network:BaseUrl must be an absolute URL.");
             }
 
             return configuredBaseUrl.ToString().TrimEnd('/');
