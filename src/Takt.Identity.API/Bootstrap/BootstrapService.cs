@@ -48,13 +48,17 @@ public sealed class BootstrapService(
         {
             throw new InvalidOperationException($"Admin creation failed: {string.Join(", ", createResult.Errors.Select(x => x.Description))}");
         }
-
-        var roleAssignResult = await userManager.AddToRoleAsync(user, SystemRoles.Admin);
+        
+        var roleAssignResult = await userManager.AddToRolesAsync(user,[ SystemRoles.Admin, SystemRoles.User]);
         if (!roleAssignResult.Succeeded)
         {
-            throw new InvalidOperationException($"Admin role assignment failed: {string.Join(", ", roleAssignResult.Errors.Select(x => x.Description))}");
+            var errors = roleAssignResult.Errors != null
+                ? roleAssignResult.Errors.Select(e => $"Code:{e.Code} {e.Description}")
+                : [];
+            
+            throw new InvalidOperationException($"Unable to assign roles to admin:'{string.Join(',', errors)}'");
         }
-
+        
         logger.LogInformation("User created: {user}", user.UserName);
     }
 }
