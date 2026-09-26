@@ -3,6 +3,9 @@
     <Project Path="src/Takt.Identity.API/Takt.Identity.API.csproj" />
     <Project Path="tests\Takt.Identity.API.IntegrationTests\Takt.Identity.API.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/People/">
+    <Project Path="src/Takt.People.API/Takt.People.API.csproj" />
+  </Folder>
   <Project Path="src/Takt.AppHost/Takt.AppHost.csproj" />
   <Project Path="src/Takt.ServiceDefaults/Takt.ServiceDefaults.csproj" />
 </Solution>

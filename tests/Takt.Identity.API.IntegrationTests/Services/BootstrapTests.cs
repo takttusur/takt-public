@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Takt.Identity.API.Bootstrap;
-using Takt.Identity.API.Configuration;
-using Takt.Identity.API.Constants;
-using Takt.Identity.API.IntegrationTests.Infrastructure;
 using Takt.Identity.API.Persistence;
+using Takt.Identity.API.Services;
 
-namespace Takt.Identity.API.IntegrationTests;
+namespace Takt.Identity.API.IntegrationTests.Services;
 
 [NonParallelizable]
 public sealed class BootstrapTests : IntegrationTestBase

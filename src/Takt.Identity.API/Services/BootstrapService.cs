@@ -4,7 +4,7 @@ using Takt.Identity.API.Configuration;
 using Takt.Identity.API.Constants;
 using Takt.Identity.API.Persistence;
 
-namespace Takt.Identity.API.Bootstrap;
+namespace Takt.Identity.API.Services;
 
 public sealed class BootstrapService(
     UserManager<ApplicationUser> userManager,

@@ -15,7 +15,7 @@ namespace Takt.Identity.API.Controllers;
 [Route("api/v{version:apiVersion}/auth")]
 public sealed class AuthController : ControllerBase
 {
-    [HttpPost("password/login")]
+    [HttpPost("password-login")]
     [EnableRateLimiting("auth")]
     public async Task<IActionResult> PasswordLoginAsync(
         [FromBody] PasswordLoginRequest request,

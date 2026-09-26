@@ -13,7 +13,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Scalar.AspNetCore;
-using Takt.Identity.API.Bootstrap;
 using Takt.Identity.API.Authorization;
 using AppTokenOptions = Takt.Identity.API.Configuration.TokenOptions;
 using Takt.Identity.API.Configuration;
@@ -260,8 +259,7 @@ public sealed class Program
 
         using (var scope = app.Services.CreateScope())
         {
-            var dbOptions = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-            if (migrateOnly || dbOptions.ApplyMigrationsOnStartup)
+            if (migrateOnly)
             {
                 var db = scope.ServiceProvider.GetRequiredService<IdentityAppDbContext>();
                 await db.Database.MigrateAsync();

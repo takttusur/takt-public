@@ -8,6 +8,6 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATimeProvider_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2026_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fa5bca1bbd95e35088f84cedba7bedf151c8c18c2132e682ecde4de9fff454d_003FTimeProvider_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ce7a0ce1_002Dc76d_002D41f2_002Db861_002D263d4b3c18c8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BootstrapTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::2BC6A216-4853-CDE9-829C-AF3B3B28867E::net10.0::Takt.Identity.API.IntegrationTests.BootstrapTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::2BC6A216-4853-CDE9-829C-AF3B3B28867E::net10.0::Takt.Identity.API.IntegrationTests.Controllers.AuthControllerTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
