@@ -1,0 +1,11 @@
+@Takt.Warehouse.API_HostAddress = http://localhost:5195
+
+GET {{Takt.Warehouse.API_HostAddress}}/warehouses
+Accept: application/json
+
+###
+
+GET {{Takt.Warehouse.API_HostAddress}}/skus
+Accept: application/json
+
+###

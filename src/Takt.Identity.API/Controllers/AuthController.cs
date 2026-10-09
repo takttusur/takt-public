@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
@@ -79,6 +80,10 @@ public sealed class AuthController : ControllerBase
         [FromServices] ITokenService tokenService,
         CancellationToken cancellationToken)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
         var state = await authFlowStateService.GetActiveAsync(request.ChallengeToken, AuthFlowPurposes.TwoFactorVerify, cancellationToken);
         if (state?.UserId is null)
         {
@@ -239,7 +244,7 @@ public sealed class AuthController : ControllerBase
 public sealed record PasswordLoginRequest(string UserName, string Password);
 public sealed record TwoFactorSetupRequiredResponse(string Status, string SetupToken);
 public sealed record TwoFactorChallengeRequiredResponse(string Status, string ChallengeToken);
-public sealed record TwoFactorVerifyRequest(string ChallengeToken, string Code);
+public sealed record TwoFactorVerifyRequest([Required] string ChallengeToken, [Required] string Code);
 public sealed record TokenResponse(
     string AccessToken,
     DateTimeOffset AccessTokenExpiresAt,

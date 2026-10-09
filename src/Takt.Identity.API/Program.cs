@@ -115,20 +115,7 @@ public sealed class Program
         builder.Services.AddScoped<BootstrapService>();
         builder.Services.AddSingleton<IAuthorizationHandler, StrongAuthenticationFreshHandler>();
         builder.Services.AddSingleton(TimeProvider.System);
-
-        builder.Services.AddRateLimiter(options =>
-        {
-            options.AddPolicy("auth", context =>
-                RateLimitPartition.GetFixedWindowLimiter(
-                    context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-                    _ => new FixedWindowRateLimiterOptions
-                    {
-                        PermitLimit = 10,
-                        Window = TimeSpan.FromMinutes(1),
-                        QueueLimit = 0
-                    }));
-        });
-
+        
         builder.Services.AddCors(options =>
         {
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
@@ -189,7 +176,7 @@ public sealed class Program
                 connectionString,
                 name: "postgresql",
                 tags: ["ready"]);
-
+        
         var app = builder.Build();
         var networkOptions = app.Services.GetRequiredService<IOptions<NetworkOptions>>().Value;
 
@@ -212,7 +199,6 @@ public sealed class Program
         });
         app.UseExceptionHandler();
         app.UseCors("default");
-        app.UseRateLimiter();
         app.UseAuthentication();
         app.UseAuthorization();
         if (networkOptions.HttpsRedirectionEnabled)
@@ -259,7 +245,8 @@ public sealed class Program
 
         using (var scope = app.Services.CreateScope())
         {
-            if (migrateOnly)
+            var dbOptions = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>();
+            if (migrateOnly || dbOptions.Value.ApplyMigrationsOnStartup)
             {
                 var db = scope.ServiceProvider.GetRequiredService<IdentityAppDbContext>();
                 await db.Database.MigrateAsync();

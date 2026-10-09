@@ -6,6 +6,7 @@ using Takt.Identity.API.Services;
 namespace Takt.Identity.API.IntegrationTests.Services;
 
 [NonParallelizable]
+[TestFixture]
 public sealed class BootstrapTests : IntegrationTestBase
 {
     private const string AdminUserName = "admin";

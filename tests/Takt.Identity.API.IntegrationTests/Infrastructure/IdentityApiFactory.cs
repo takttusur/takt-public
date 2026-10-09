@@ -41,11 +41,8 @@ public sealed class IdentityApiFactory(
 
             configBuilder.AddInMemoryCollection(settings);
         });
-
+        
         var host = base.CreateHost(builder);
-        using var scope = host.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<IdentityAppDbContext>();
-        db.Database.Migrate();
         return host;
     }
 }

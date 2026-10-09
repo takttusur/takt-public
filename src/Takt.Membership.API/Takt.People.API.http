@@ -1,0 +1,11 @@
+@Takt.People.API_HostAddress = http://localhost:5270
+
+GET {{Takt.People.API_HostAddress}}/api/v1.0/people?limit=10
+Accept: application/json
+
+###
+
+GET {{Takt.People.API_HostAddress}}/api/v1.0/club/roles
+Accept: application/json
+
+###

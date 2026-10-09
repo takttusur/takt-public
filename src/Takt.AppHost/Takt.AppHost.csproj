@@ -18,6 +18,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Takt.Identity.API\Takt.Identity.API.csproj" />
+      <ProjectReference Include="..\Takt.Membership.API\Takt.Membership.API.csproj" />
+      <ProjectReference Include="..\Takt.Warehouse.API\Takt.Warehouse.API.csproj" />
     </ItemGroup>
 
 </Project>

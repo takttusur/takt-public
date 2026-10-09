@@ -1,6 +1,7 @@
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Takt.Identity.API.Persistence;
 using Testcontainers.PostgreSql;
 
 namespace Takt.Identity.API.IntegrationTests.Infrastructure;
@@ -22,6 +23,7 @@ public sealed class IntegrationTestFixture
     {
         await _postgres.StartAsync();
         Environment.SetEnvironmentVariable("ConnectionStrings__DefaultConnection", ConnectionString);
+        
         Factory = new IdentityApiFactory(ConnectionString);
         Client = Factory.CreateClient(new WebApplicationFactoryClientOptions
         {

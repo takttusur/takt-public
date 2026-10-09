@@ -3,9 +3,18 @@
     <Project Path="src/Takt.Identity.API/Takt.Identity.API.csproj" />
     <Project Path="tests\Takt.Identity.API.IntegrationTests\Takt.Identity.API.IntegrationTests.csproj" />
   </Folder>
-  <Folder Name="/People/">
-    <Project Path="src/Takt.People.API/Takt.People.API.csproj" />
+  <Folder Name="/Membership/">
+    <Project Path="src/Takt.Membership.API.IntegrationTests/Takt.Membership.API.IntegrationTests.csproj" />
+    <Project Path="src\Takt.Membership.API\Takt.Membership.API.csproj" />
+  </Folder>
+  <Folder Name="/Warehouse/">
+    <Project Path="src/Takt.Warehouse.API/Takt.Warehouse.API.csproj" />
+    <Project Path="tests/Takt.Warehouse.UnitTests/Takt.Warehouse.UnitTests.csproj" />
+    <Project Path="tests/Takt.Warehouse.IntegrationTests/Takt.Warehouse.IntegrationTests.csproj" />
+    <Project Path="tests/Takt.Warehouse.ArchitectureTests/Takt.Warehouse.ArchitectureTests.csproj" />
   </Folder>
   <Project Path="src/Takt.AppHost/Takt.AppHost.csproj" />
-  <Project Path="src/Takt.ServiceDefaults/Takt.ServiceDefaults.csproj" />
+  <Project Path="src/Takt.ArchitectureTests/Takt.ArchitectureTests.csproj" />
+  <Project Path="src/Takt.Shared.TestsInfrastructure/Takt.Shared.TestsInfrastructure.csproj" />
+  <Project Path="src\Takt.Shared.ServiceDefaults\Takt.Shared.ServiceDefaults.csproj" />
 </Solution>
