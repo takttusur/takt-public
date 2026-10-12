@@ -91,7 +91,7 @@ public sealed class AuthController : ControllerBase
         }
 
         var user = await userManager.FindByIdAsync(state.UserId.Value.ToString());
-        if (user is null || user.IsDisabled)
+        if (user is null || user.IsDisabled || user.LockoutEnd is not null && user.LockoutEnd > DateTimeOffset.UtcNow)
         {
             return Unauthorized();
         }
@@ -103,7 +103,19 @@ public sealed class AuthController : ControllerBase
 
         if (!isValid)
         {
+            var failedAttemptResult = await userManager.AccessFailedAsync(user);
+            if (!failedAttemptResult.Succeeded)
+            {
+                return Problem("Unable to record failed authentication attempt.", statusCode: StatusCodes.Status500InternalServerError);
+            }
+
             return Unauthorized();
+        }
+
+        var resetFailedCountResult = await userManager.ResetAccessFailedCountAsync(user);
+        if (!resetFailedCountResult.Succeeded)
+        {
+            return Problem("Unable to reset failed authentication attempts.", statusCode: StatusCodes.Status500InternalServerError);
         }
 
         var consumed = await authFlowStateService.TryConsumeAsync(
